@@ -1,7 +1,6 @@
 package com.example.jourlyapp.model.journal.db
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -34,11 +33,9 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
         private val LOCK = Object()
-        private val TAG = AppDatabase::class.java.simpleName
-        private val DB_NAME = "jourly_database"
+        private const val DB_NAME = "jourly_database"
 
         fun getDatabase(context: Context, scope: CoroutineScope): AppDatabase {
-            Log.i(TAG, "Creating DB instance...")
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(LOCK) {
@@ -51,19 +48,13 @@ abstract class AppDatabase : RoomDatabase() {
                     .addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
-                Log.i(TAG, "Instance created.")
                 instance
-            }
-        }
-
-        fun closeInstance() {
-            Log.i(TAG, "Closing database instance...")
-            if (INSTANCE != null && INSTANCE!!.isOpen) {
-                INSTANCE!!.openHelper.close()
             }
         }
     }
 
+    // used to pre-populate database with dummy entries
+    // TODO: remove when actual data is used!
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
     ) : Callback() {
@@ -74,21 +65,23 @@ abstract class AppDatabase : RoomDatabase() {
                 scope.launch {
                     val journalDao = database.journalDao()
 
-                    // Delete all content here.
+                    // Delete all content
                     journalDao.deleteAllEntries()
                     journalDao.deleteAllQuestionAnswerPairs()
 
-                    // Add dummy data.
-                    val entries = mutableListOf<JournalEntry>(
-                        JournalEntry(0, LocalDateTime.now(), Mood.Good),
-                        JournalEntry(0, LocalDateTime.now().minusDays(1), Mood.Bad),
-                        JournalEntry(0, LocalDateTime.now().minusDays(2), Mood.Great),
-                        JournalEntry(0, LocalDateTime.now().minusDays(3), Mood.Okay)
-                    )
-
-                    journalDao.insertEntries(entries)
+                    // insert dummy entries
+                    journalDao.insertEntries(getDummyEntries())
                 }
             }
+        }
+
+        private fun getDummyEntries(): List<JournalEntry> {
+            return listOf(
+                JournalEntry(0, LocalDateTime.now(), Mood.Good),
+                JournalEntry(0, LocalDateTime.now().minusDays(1), Mood.Bad),
+                JournalEntry(0, LocalDateTime.now().minusDays(2), Mood.Great),
+                JournalEntry(0, LocalDateTime.now().minusDays(3), Mood.Okay)
+            )
         }
     }
 }
