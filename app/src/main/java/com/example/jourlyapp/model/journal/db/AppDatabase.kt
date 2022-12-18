@@ -71,9 +71,12 @@ abstract class AppDatabase : RoomDatabase() {
                     journalDao.deleteAllEntries()
                     journalDao.deleteAllQuestionAnswerPairs()
 
-                    // insert dummy entries
+                    // insert dummy entries and QA-pairs
                     getDummyEntries().forEach {
                         journalDao.insertEntry(it)
+                    }
+                    getDummyQuestionAnswerPairs().forEach {
+                        journalDao.insertQuestionAnswerPair(it)
                     }
                 }
             }
