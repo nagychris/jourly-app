@@ -15,9 +15,9 @@ import androidx.room.PrimaryKey
         onUpdate = ForeignKey.CASCADE
     )]
 )
-class QuestionAnswerPair(
-    @PrimaryKey
-    val id: Int,
+data class QuestionAnswerPair(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
     @ColumnInfo(name = "journal_entry_id", index = true)
     val journalEntryId: Int,
     val question: String,

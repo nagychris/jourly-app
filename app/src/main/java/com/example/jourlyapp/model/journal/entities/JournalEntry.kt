@@ -6,8 +6,9 @@ import com.example.jourlyapp.model.journal.enums.Mood
 import java.time.LocalDateTime
 
 @Entity(tableName = "journal_entry")
-class JournalEntry(
-    @PrimaryKey val id: Int,
+data class JournalEntry(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
     val date: LocalDateTime,
     var mood: Mood = Mood.None,
 )
