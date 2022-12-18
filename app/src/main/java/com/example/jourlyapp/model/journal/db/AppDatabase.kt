@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.jourlyapp.model.journal.dao.JournalDao
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
+import com.example.jourlyapp.model.journal.enums.JournalQuestion
 import com.example.jourlyapp.model.journal.enums.Mood
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -19,7 +20,8 @@ import java.time.LocalDateTime
         JournalEntry::class,
         QuestionAnswerPair::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -65,22 +67,37 @@ abstract class AppDatabase : RoomDatabase() {
                 scope.launch {
                     val journalDao = database.journalDao()
 
-                    // Delete all content
+                    // clear contents
                     journalDao.deleteAllEntries()
                     journalDao.deleteAllQuestionAnswerPairs()
 
                     // insert dummy entries
-                    journalDao.insertEntries(getDummyEntries())
+                    getDummyEntries().forEach {
+                        journalDao.insertEntry(it)
+                    }
                 }
             }
         }
 
         private fun getDummyEntries(): List<JournalEntry> {
             return listOf(
-                JournalEntry(0, LocalDateTime.now(), Mood.Good),
-                JournalEntry(0, LocalDateTime.now().minusDays(1), Mood.Bad),
-                JournalEntry(0, LocalDateTime.now().minusDays(2), Mood.Great),
-                JournalEntry(0, LocalDateTime.now().minusDays(3), Mood.Okay)
+                JournalEntry(null, LocalDateTime.now(), Mood.Good),
+                JournalEntry(null, LocalDateTime.now().minusDays(1), Mood.Bad),
+                JournalEntry(null, LocalDateTime.now().minusDays(2), Mood.Great),
+            )
+        }
+
+        private fun getDummyQuestionAnswerPairs(): List<QuestionAnswerPair> {
+            return listOf(
+                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION1.toString(), null),
+                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION2.toString(), null),
+                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION3.toString(), null),
+                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION1.toString(), null),
+                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION2.toString(), null),
+                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION3.toString(), null),
+                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION1.toString(), null),
+                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION2.toString(), null),
+                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION3.toString(), null),
             )
         }
     }
