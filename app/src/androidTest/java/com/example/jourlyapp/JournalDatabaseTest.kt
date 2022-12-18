@@ -58,6 +58,15 @@ class JournalDatabaseTest {
             AppDatabase::class.java
         ).build()
         journalDao = database.journalDao()
+
+        runTest {
+            entries.forEach {
+                journalDao.insertEntry(it)
+            }
+            questionAnswerPairs.forEach {
+                journalDao.insertQuestionAnswerPair(it)
+            }
+        }
     }
 
     @After
@@ -68,10 +77,6 @@ class JournalDatabaseTest {
 
     @Test
     fun insertedEntriesShouldBePresent() = runTest {
-        entries.forEach {
-            journalDao.insertEntry(it)
-        }
-
         journalDao.getEntries().test {
             val list = awaitItem()
             assert(list.size == 3)
@@ -84,10 +89,6 @@ class JournalDatabaseTest {
 
     @Test
     fun deletedEntryShouldNotBePresent() = runTest {
-        entries.forEach {
-            journalDao.insertEntry(it)
-        }
-
         journalDao.deleteEntryById(expectedEntries[1].id!!)
 
         journalDao.getEntries().test {
@@ -102,10 +103,6 @@ class JournalDatabaseTest {
 
     @Test
     fun deleteAllEntriesClearsEntries() = runTest {
-        entries.forEach {
-            journalDao.insertEntry(it)
-        }
-
         journalDao.deleteAllEntries()
 
         journalDao.getEntries().test {
@@ -117,13 +114,6 @@ class JournalDatabaseTest {
 
     @Test
     fun insertedQAPairsShouldBeAssociatedWithCorrectEntry() = runTest {
-        entries.forEach {
-            journalDao.insertEntry(it)
-        }
-        questionAnswerPairs.forEach {
-            journalDao.insertQuestionAnswerPair(it)
-        }
-
         val questionnaire1 = journalDao.getQuestionnaireByEntryId(1)
         assert(questionnaire1.size == 2)
         assert(questionnaire1.contains(expectedQaPairs[0]))
@@ -135,13 +125,6 @@ class JournalDatabaseTest {
 
     @Test
     fun deleteAllQuestionAnswerPairsShouldClearAllQAPairs() = runTest {
-        entries.forEach {
-            journalDao.insertEntry(it)
-        }
-        questionAnswerPairs.forEach {
-            journalDao.insertQuestionAnswerPair(it)
-        }
-
         journalDao.deleteAllQuestionAnswerPairs()
 
         val questionnaire1 = journalDao.getQuestionnaireByEntryId(1)
