@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.jourlyapp.model.journal.dao.JournalDao
+import com.example.jourlyapp.model.journal.db.AppDatabase.AppDatabaseCallback
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
 import com.example.jourlyapp.model.journal.enums.JournalQuestion
@@ -15,6 +16,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
+/**
+ * Local persistence database that stores the data of the app in a structured manner (SQLite) using the Room library.
+ * Singleton class to prevent duplicate instantiation, as it is rather costly.
+ * Pre-populated with dummy data using [AppDatabaseCallback].
+ */
 @Database(
     entities = [
         JournalEntry::class,
