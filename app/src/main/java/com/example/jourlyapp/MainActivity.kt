@@ -13,8 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.jourlyapp.ui.theme.JourlyAppTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             JourlyAppTheme {
                 // A surface container using the 'background' color from the theme
