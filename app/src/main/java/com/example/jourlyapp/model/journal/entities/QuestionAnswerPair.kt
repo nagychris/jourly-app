@@ -5,6 +5,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+/**
+ * A pair of a question and the corresponding answer. Typically one [JournalEntry] has a questionnaire consisting of
+ * several [QuestionAnswerPair]s.
+ */
 @Entity(
     tableName = "question_answer_pair",
     foreignKeys = [ForeignKey(
