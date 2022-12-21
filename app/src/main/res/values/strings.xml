@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Jourly App</string>
+    <string name="journal">Journal</string>
+    <string name="profile">Profile</string>
+    <string name="report">Report</string>
+    <string name="achieved" translatable="false">Achieved</string>
 </resources>
