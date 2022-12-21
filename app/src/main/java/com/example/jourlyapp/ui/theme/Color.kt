@@ -6,7 +6,7 @@ val Blue100 = Color(0xFF9FCAE5)
 val Blue80 = Color(0xFFC5DFEF)
 val Blue60 = Color(0xFFD9EAF5)
 
-val Purple100 = Color(0xFF9ba3e4)
+val Purple100 = Color(0xCC8791DE)
 val Purple80 = Color(0xFFC5CAEF)
 val Purple60 = Color(0xFFD9DCF5)
 
