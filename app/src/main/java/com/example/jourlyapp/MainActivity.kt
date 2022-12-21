@@ -3,40 +3,55 @@ package com.example.jourlyapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.jourlyapp.ui.theme.JourlyAppTheme
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.jourlyapp.ui.components.journal.AddEntryFAB
+import com.example.jourlyapp.ui.components.nav.BottomNavigationBar
+import com.example.jourlyapp.ui.components.nav.MainScreenNavigation
+import com.example.jourlyapp.ui.theme.JourlyTheme
 
+/**
+ * Starting point of the app, which is also providing the [navController] used for navigation.
+ */
 class MainActivity : ComponentActivity() {
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            JourlyAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
+            navController = rememberNavController()
+            JourlyTheme {
+                Scaffold(
+                    bottomBar = { BottomNavigationBar(navController) },
+                    floatingActionButton = { AddEntryFAB() },
+                    floatingActionButtonPosition = FabPosition.Center,
+                    isFloatingActionButtonDocked = true
+                ) { innerPadding ->
+                    MainScreenNavigation(navController as NavHostController, innerPadding)
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    JourlyAppTheme {
-        Greeting("Android")
+fun MainActivityPreview() {
+    JourlyTheme {
+        val navController = rememberNavController()
+        Scaffold(
+            bottomBar = { BottomNavigationBar(navController) },
+            floatingActionButton = { AddEntryFAB() },
+            floatingActionButtonPosition = FabPosition.Center,
+            isFloatingActionButtonDocked = true,
+        ) { innerPadding ->
+            MainScreenNavigation(navController, innerPadding)
+        }
     }
 }
