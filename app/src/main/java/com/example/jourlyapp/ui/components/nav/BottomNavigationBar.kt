@@ -38,7 +38,7 @@ fun BottomNavigationBar(navController: NavController) {
         cutoutShape = CircleShape,
         backgroundColor = MaterialTheme.colorScheme.primary,
         modifier = Modifier
-            .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)),
+            .clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp)),
         elevation = 0.dp,
         contentColor = Color.White
     ) {

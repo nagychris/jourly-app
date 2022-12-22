@@ -11,6 +11,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.jourlyapp.ui.theme.JourlyTheme
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -44,5 +46,13 @@ fun AddEntryFAB() {
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun AddEntryFABPreview() {
+    JourlyTheme {
+        AddEntryFAB()
     }
 }
