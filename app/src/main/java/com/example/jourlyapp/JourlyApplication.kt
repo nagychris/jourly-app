@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
  * [database] reference should be the only way!
  * See: https://developer.android.com/codelabs/android-room-with-a-view-kotlin#12
  */
-class JournalApplication : Application() {
+class JourlyApplication : Application() {
     val applicationScope = CoroutineScope(SupervisorJob())
 
     val database by lazy { AppDatabase.getDatabase(this, applicationScope) }
