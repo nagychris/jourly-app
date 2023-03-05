@@ -2,7 +2,7 @@
 - Mobile Application Development Project @ BTH
 - Quick & easy mood tracking and journaling
 
-## Contribution Workflow
+## How to Contribute :rocket:
 
 Please follow the following workflow when contributing [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow):
 
@@ -28,10 +28,12 @@ Please follow the following workflow when contributing [GitHub Flow](https://doc
 
 `git push origin HEAD` 
 
-- Create a pull request with the feature branch in GitHub (usually a message is shown [here](https://github.com/nagychris/jourly-app/pulls) that automatically includes the recently pushed branch). The description should include a link to the issue that should be closed by the changes (e.g. "Closes #issue_number") and description of the changes (if required). Also post a link of the PR in Discord Channel "Development" to notify the others :
+- Create a pull request (PR) with the feature branch in GitHub (usually a message is shown [here](https://github.com/nagychris/jourly-app/pulls) that automatically includes the recently pushed branch). The description should include a link to the issue that should be closed by the changes (e.g. "Closes #issue_number") and description of the changes (if required). Also post a link of the PR in Discord Channel "Development" to notify the others :
 
 - Now, wait for comments (and if needed, apply the requested changes), and finally, for the approval of the PR 
 
-- Branch may be merged into the `main` branch :clap:
+  - **How to review and approve a PR** in GitHub: Go to the PR page > "Files changed" > "Review changes" > Here you can either "Comment", if you have some questions that need to be answered before the merge, "Approve" if you are fine with the changes and they may be merged, or "Request Changes" if you found some error (or similar) to be fixed before the merging. Please also leave a comment in the code to easier locate and fix the error.
+
+- After being approved by at least one other person, the PR may be merged into the `main` branch :clap:
 
 
