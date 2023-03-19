@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -60,12 +59,12 @@ fun AddEntryFAB() {
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
     if (isToggled) {
         BuildEntryModal(
-            onMood1Click = { /*TODO*/ },
-            onMood2Click = { /*TODO*/ },
-            onMood3Click = { /*TODO*/ },
-            onMood4Click = { /*TODO*/ },
-            onMood5Click = { /*TODO*/ },
-            onArrowClick = { /*TODO*/ },
+            onMood1Click = { /*TODO: add the quick entry to the database*/ },
+            onMood2Click = { /*TODO: add the quick entry to the database*/ },
+            onMood3Click = { /*TODO: add the quick entry to the database*/ },
+            onMood4Click = { /*TODO: add the quick entry to the database*/ },
+            onMood5Click = { /*TODO: add the quick entry to the database*/ },
+            onArrowClick = { /*TODO: remand to the modal for detailed daily entry*/ },
             onDismissRequest = {isToggled = !isToggled})
     }
 }
@@ -132,36 +131,40 @@ fun BuildEntryModal(
                          Icon(
                              painterResource(id = R.drawable.great_mood_emoji),
                              contentDescription = "Button to add a quick entry of the mood: Great",
-                             modifier = Modifier.size(30.dp),
-                             tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                             modifier = Modifier.size(40.dp),
+                             tint = Color.Unspecified
                          )
                      }
                      IconButton(onClick = onMood2Click) {
                          Icon(
                              painterResource(id = R.drawable.good_mood_emoji),
                              contentDescription = "Button to add a quick entry of the mood: Good",
-                             modifier = Modifier.size(30.dp)
+                             modifier = Modifier.size(40.dp),
+                             tint = Color.Unspecified
                          )
                      }
                      IconButton(onClick = onMood3Click) {
                          Icon(
                              painterResource(id = R.drawable.okay_mood_emoji),
                              contentDescription = "Button to add a quick entry of the mood: Okay",
-                             modifier = Modifier.size(30.dp)
+                             modifier = Modifier.size(40.dp),
+                             tint = Color.Unspecified
                          )
                      }
                      IconButton(onClick = onMood4Click) {
                          Icon(
                              painterResource(id = R.drawable.bad_mood_emoji),
                              contentDescription = "Button to add a quick entry of the mood: Bad",
-                             modifier = Modifier.size(30.dp)
+                             modifier = Modifier.size(40.dp),
+                             tint = Color.Unspecified
                          )
                      }
                      IconButton(onClick = onMood5Click) {
                          Icon(
                              painterResource(id = R.drawable.awful_mood_emoji),
                              contentDescription = "Button to add a quick entry of the mood: Awful",
-                             modifier = Modifier.size(30.dp)
+                             modifier = Modifier.size(40.dp),
+                             tint = Color.Unspecified
                          )
                      }
                  }
