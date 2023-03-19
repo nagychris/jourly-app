@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.jourlyapp.model.lock.EncryptedStorageService
 import com.example.jourlyapp.ui.components.journal.AddEntryFAB
 import com.example.jourlyapp.ui.components.nav.BottomNavigationBar
 import com.example.jourlyapp.ui.components.nav.MainScreenNavigation
@@ -20,9 +21,12 @@ import com.example.jourlyapp.ui.theme.JourlyTheme
  */
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavController
+    private lateinit var encryptedStorageService: EncryptedStorageService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        encryptedStorageService = EncryptedStorageService(applicationContext)
 
         setContent {
             navController = rememberNavController()
