@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.jourlyapp.utils
+package com.example.jourlyapp.util
 
 import java.io.InputStream
 import java.io.OutputStream

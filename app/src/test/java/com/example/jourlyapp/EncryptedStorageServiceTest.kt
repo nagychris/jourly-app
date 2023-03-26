@@ -2,8 +2,8 @@ package com.example.jourlyapp
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.example.jourlyapp.model.lock.EncryptedStorageService
-import com.example.jourlyapp.utils.FakeAndroidKeyStoreProvider
+import com.example.jourlyapp.model.auth.EncryptedStorageService
+import com.example.jourlyapp.util.FakeAndroidKeyStoreProvider
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
-class EncryptedSharedPreferencesTest {
+class EncryptedStorageServiceTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
@@ -26,7 +26,7 @@ class EncryptedSharedPreferencesTest {
     }
 
     @Test
-    fun storeStringWorksCorrectly() {
+    fun storeStringSavesString() {
         encryptedStorageService.storeString("key", "string")
         assertTrue(encryptedStorageService.hasKey("key"))
         assertEquals("string", encryptedStorageService.getString("key"))
@@ -38,4 +38,22 @@ class EncryptedSharedPreferencesTest {
         assertFalse(encryptedStorageService.hasKey("doesntExist"))
     }
 
+    @Test
+    fun hasKeyReturnsTrueIfKeyExists() {
+        encryptedStorageService.storeString("key", "string")
+        assertTrue(encryptedStorageService.hasKey("key"))
+    }
+
+    @Test
+    fun removeStringDeletesString() {
+        encryptedStorageService.storeString("key", "string")
+
+        assertTrue(encryptedStorageService.hasKey("key"))
+        assertEquals("string", encryptedStorageService.getString("key"))
+
+        encryptedStorageService.removeString("key")
+
+        assertFalse(encryptedStorageService.hasKey("key"))
+        assertNull(encryptedStorageService.getString("key"))
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.jourlyapp.utils
+package com.example.jourlyapp.util
 
 import java.security.Provider
 import java.security.Security

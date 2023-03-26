@@ -1,4 +1,4 @@
-package com.example.jourlyapp.utils
+package com.example.jourlyapp.util
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
