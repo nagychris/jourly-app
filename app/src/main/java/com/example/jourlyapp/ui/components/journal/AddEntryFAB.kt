@@ -23,30 +23,40 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.example.jourlyapp.R
+import com.example.jourlyapp.model.journal.dao.JournalDao
+import com.example.jourlyapp.model.journal.db.AppDatabase
+import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.theme.JourlyTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddEntryFAB() {
-    /**
-     * If true, a Close-Icon is shown instead of an Add-Icon.
-     */
+
+    // If true, a Close-Icon is shown instead of an Add-Icon.
     var isToggled by remember {
         mutableStateOf(false)
     }
+
+    // Init a list of int that remember their own value. Used to check if the user pressed an emoji button 2 times
     var myCounters = remember { mutableListOf<Int>() }
     val moodButtonNum = 5
     repeat(moodButtonNum) { i ->
         myCounters.add(0)
     }
     val context = LocalContext.current
+    val database = AppDatabase.getDatabase(context, GlobalScope)
+    val journalDao = database.journalDao()
 
     FloatingActionButton(
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
-            // TODO: show add entry modal
+            /*TODO*/
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -118,109 +128,6 @@ fun AddEntryFABPreview() {
     }
 }
 
-
-/**
- * This function's goal is to build and show the modal that is used to add a quick entry of
- * the user's mood.
- */
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun BuildEntryModal(
-    //title: String,
-    onMood1Click: () -> Unit,
-    onMood2Click: () -> Unit,
-    onMood3Click: () -> Unit,
-    onMood4Click: () -> Unit,
-    onMood5Click: () -> Unit,
-    onArrowClick: () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-
-    /*
-    Please note that there are 2 ways for padding. The commented one brings the modal to the bottom of
-    the screen as we designed it during the design phase, while the second one shows it in the middle
-    of the screen. The problem of the first solution is that it elicits the possibility to dismiss the
-    modal by clicking in any part of the screen outside of it, while the second one allows this.
-    */
-     AlertDialog(
-         onDismissRequest = onDismissRequest,
-         properties = DialogProperties(usePlatformDefaultWidth = false),
-         modifier = Modifier
-             //.padding(start = 28.dp, end = 28.dp, top = 550.dp, bottom = 100.dp)
-             .padding(28.dp)
-             .fillMaxWidth()
-             .wrapContentHeight()
-             .wrapContentWidth(),
-         buttons = {
-             Column(
-                 horizontalAlignment = Alignment.CenterHorizontally,
-                 modifier = Modifier
-                     .fillMaxWidth()
-                     .padding(horizontal = 16.dp)
-             ) {
-                 // This button could be moved out of the row
-                 IconButton(onClick = onArrowClick) {
-                     Icon(
-                         painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24),
-                         contentDescription = "Button to detailed entry",
-                         modifier = Modifier.size(20.dp)
-                     )
-                 }
-
-                 Text(text = "What is your today's mood?", fontWeight = FontWeight.Bold)
-
-                 Row (
-                     Modifier
-                         .fillMaxWidth()
-                         .padding(vertical = 8.dp),
-                     horizontalArrangement = Arrangement.SpaceBetween,
-                     verticalAlignment = Alignment.CenterVertically,
-                 ){
-                     IconButton(onClick = onMood1Click) {
-                         Icon(
-                             painterResource(id = R.drawable.great_mood_emoji),
-                             contentDescription = "Button to add a quick entry of the mood: Great",
-                             modifier = Modifier.size(40.dp),
-                             tint = Color.Unspecified
-                         )
-                     }
-                     IconButton(onClick = onMood2Click) {
-                         Icon(
-                             painterResource(id = R.drawable.good_mood_emoji),
-                             contentDescription = "Button to add a quick entry of the mood: Good",
-                             modifier = Modifier.size(40.dp),
-                             tint = Color.Unspecified
-                         )
-                     }
-                     IconButton(onClick = onMood3Click) {
-                         Icon(
-                             painterResource(id = R.drawable.okay_mood_emoji),
-                             contentDescription = "Button to add a quick entry of the mood: Okay",
-                             modifier = Modifier.size(40.dp),
-                             tint = Color.Unspecified
-                         )
-                     }
-                     IconButton(onClick = onMood4Click) {
-                         Icon(
-                             painterResource(id = R.drawable.bad_mood_emoji),
-                             contentDescription = "Button to add a quick entry of the mood: Bad",
-                             modifier = Modifier.size(40.dp),
-                             tint = Color.Unspecified
-                         )
-                     }
-                     IconButton(onClick = onMood5Click) {
-                         Icon(
-                             painterResource(id = R.drawable.awful_mood_emoji),
-                             contentDescription = "Button to add a quick entry of the mood: Awful",
-                             modifier = Modifier.size(40.dp),
-                             tint = Color.Unspecified
-                         )
-                     }
-                 }
-             }
-         }
-     )
-}
 
 /**
  * This function is used to show the Toast messages that inform the user on how to use the quick mood entry modal.
