@@ -22,7 +22,7 @@ import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
 import com.example.jourlyapp.ui.components.shared.inputs.BaseTextField
 import com.example.jourlyapp.ui.components.shared.inputs.PasscodeTextField
 import com.example.jourlyapp.ui.theme.Typography
-import com.example.jourlyapp.viewmodel.RegisterUserViewModel
+import com.example.jourlyapp.viewmodel.auth.RegisterUserViewModel
 
 
 @Composable

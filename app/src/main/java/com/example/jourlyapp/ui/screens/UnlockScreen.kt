@@ -22,7 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jourlyapp.ui.components.shared.PageHeader
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
 import com.example.jourlyapp.ui.components.shared.inputs.PasscodeTextField
-import com.example.jourlyapp.viewmodel.UnlockViewModel
+import com.example.jourlyapp.viewmodel.auth.UnlockViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

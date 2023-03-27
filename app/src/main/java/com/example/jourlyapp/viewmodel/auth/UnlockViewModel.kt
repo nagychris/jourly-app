@@ -1,4 +1,4 @@
-package com.example.jourlyapp.viewmodel
+package com.example.jourlyapp.viewmodel.auth
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
