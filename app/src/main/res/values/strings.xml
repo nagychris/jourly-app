@@ -4,4 +4,11 @@
     <string name="profile">Profile</string>
     <string name="report">Report</string>
     <string name="achieved" translatable="false">Achieved</string>
+    <string name="welcomeText">Welcome to Jourly</string>
+    <string name="userNameLabel">How should we call you?</string>
+    <string name="userName">Your Nickname</string>
+    <string name="passcodeLabel">Enter an optional passcode to lock the app</string>
+    <string name="passcode">Passcode</string>
+    <string name="save">Save</string>
+    <string name="skip">Skip</string>
 </resources>

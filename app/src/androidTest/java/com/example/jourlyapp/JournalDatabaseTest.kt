@@ -22,7 +22,6 @@ import java.time.LocalDateTime
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class JournalDatabaseTest {
-    private val TAG = this::class.simpleName
     private lateinit var database: AppDatabase
     private lateinit var journalDao: JournalDao
 

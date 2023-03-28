@@ -23,16 +23,17 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.jourlyapp.ui.navigation.AppRoute
 import com.example.jourlyapp.ui.theme.JourlyTheme
 import com.example.jourlyapp.ui.theme.Typography
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    val navigationItems = listOf(
-        NavigationItem.Challenges,
-        NavigationItem.Journal,
-        NavigationItem.Report,
-        NavigationItem.Profile
+    val appRoutes = listOf(
+        AppRoute.Challenges,
+        AppRoute.Journal,
+        AppRoute.Report,
+        AppRoute.Profile
     )
     BottomAppBar(
         cutoutShape = CircleShape,
@@ -50,7 +51,7 @@ fun BottomNavigationBar(navController: NavController) {
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
-            navigationItems.forEachIndexed { index, navItem ->
+            appRoutes.forEachIndexed { index, navItem ->
                 if (index == 2) {
                     // add an empty space for FAB
                     BottomNavigationItem(
