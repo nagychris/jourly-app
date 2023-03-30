@@ -16,7 +16,7 @@ fun PageHeader(
     Text(
         text = title,
         fontSize = Typography.titleLarge.fontSize,
-        modifier = modifier.padding(bottom = if (subtitle.isEmpty()) 32.dp else 6.dp)
+        modifier = if (subtitle.isNotEmpty()) modifier.padding(bottom = 6.dp) else modifier
     )
     if (subtitle.isNotEmpty())
         Text(

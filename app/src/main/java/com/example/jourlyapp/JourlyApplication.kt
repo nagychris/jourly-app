@@ -3,6 +3,7 @@ package com.example.jourlyapp
 import android.app.Application
 import com.example.jourlyapp.model.auth.EncryptedStorageService
 import com.example.jourlyapp.model.auth.UserRepositoryImpl
+import com.example.jourlyapp.model.journal.JournalRepository
 import com.example.jourlyapp.model.journal.db.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -20,4 +21,6 @@ class JourlyApplication : Application() {
     val encryptedStorageService by lazy { EncryptedStorageService(this) }
 
     val userRepository by lazy { UserRepositoryImpl(encryptedStorageService) }
+
+    val journalRepository by lazy { JournalRepository(database.journalDao()) }
 }

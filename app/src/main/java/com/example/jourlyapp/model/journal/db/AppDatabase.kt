@@ -1,6 +1,7 @@
 package com.example.jourlyapp.model.journal.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -15,6 +16,7 @@ import com.example.jourlyapp.model.journal.enums.Mood
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import kotlin.random.Random
 
 /**
  * Local persistence database that stores the data of the app in a structured manner (SQLite) using the Room library.
@@ -41,7 +43,8 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
         private val LOCK = Object()
-        private const val DB_NAME = "jourly_database"
+        private const val DB_NAME = "jourly_database.db"
+        private const val TAG = "AppDatabase"
 
         fun getDatabase(context: Context, scope: CoroutineScope): AppDatabase {
             // if the INSTANCE is not null, then return it,
@@ -76,11 +79,26 @@ abstract class AppDatabase : RoomDatabase() {
                     // clear contents
                     journalDao.deleteAllEntries()
                     journalDao.deleteAllQuestionAnswerPairs()
+                    Log.d(TAG, "Deleted all entries from DB")
 
                     // insert dummy entries and QA-pairs
-                    getDummyEntries().forEach {
-                        journalDao.insertEntry(it)
+                    repeat(10) {
+                        journalDao.insertEntry(
+                            JournalEntry(
+                                null,
+                                LocalDateTime.now().minusDays(it.toLong()),
+                                Mood.values()[Random.nextInt(
+                                    Mood.Awful.ordinal,
+                                    Mood.Great.ordinal
+                                )]
+                            ),
+                        )
                     }
+                    Log.d(
+                        TAG,
+                        "Inserted entries ${getDummyEntries()}"
+                    )
+
                     getDummyQuestionAnswerPairs().forEach {
                         journalDao.insertQuestionAnswerPair(it)
                     }
@@ -90,10 +108,54 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun getDummyEntries(): List<JournalEntry> {
             return listOf(
-                JournalEntry(null, LocalDateTime.now(), Mood.Good),
-                JournalEntry(null, LocalDateTime.now().minusDays(1), Mood.Bad),
-                JournalEntry(null, LocalDateTime.now().minusDays(2), Mood.Great),
-            )
+                JournalEntry(null, LocalDateTime.now(), Mood.Great),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(1),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(2),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(3),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(4),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(5),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(6),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(7),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(8),
+                    Mood.Great
+                ),
+                JournalEntry(
+                    null,
+                    LocalDateTime.now().minusDays(9),
+                    Mood.Great
+                ),
+
+                )
         }
 
         private fun getDummyQuestionAnswerPairs(): List<QuestionAnswerPair> {
