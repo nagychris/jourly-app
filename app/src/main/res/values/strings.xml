@@ -11,4 +11,5 @@
     <string name="passcode">Passcode</string>
     <string name="save">Save</string>
     <string name="skip">Skip</string>
+    <string name="quickEntryQuestion">What is your mood today?</string>
 </resources>

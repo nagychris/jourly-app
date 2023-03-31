@@ -42,21 +42,10 @@ fun AddEntryFAB() {
         mutableStateOf(false)
     }
 
-    // Init a list of int that remember their own value. Used to check if the user pressed an emoji button 2 times
-    var myCounters = remember { mutableListOf<Int>() }
-    val moodButtonNum = 5
-    repeat(moodButtonNum) { i ->
-        myCounters.add(0)
-    }
-    val context = LocalContext.current
-    val database = AppDatabase.getDatabase(context, GlobalScope)
-    val journalDao = database.journalDao()
-
     FloatingActionButton(
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
-            /*TODO*/
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -78,45 +67,8 @@ fun AddEntryFAB() {
 
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
     if (isToggled) {
-        BuildEntryModal(
-            onMood1Click = {
-                myCounters[0]++
-                showMessage(myCounters[0], Mood.Great, context)
-                if (myCounters[0] > 1) {
-                    myCounters[0] = 0
-                }
-                /*TODO: add the quick entry to the database*/
-                },
-            onMood2Click = { myCounters[1]++
-                showMessage(myCounters[1], Mood.Good, context)
-                if (myCounters[1] > 1) {
-                    myCounters[1] = 0
-                }
-                /*TODO: add the quick entry to the database*/ },
-            onMood3Click = { myCounters[2]++
-                showMessage(myCounters[2], Mood.Okay, context)
-                if (myCounters[2] > 1) {
-                    myCounters[2] = 0
-                }
-                /*TODO: add the quick entry to the database*/ },
-            onMood4Click = { myCounters[3]++
-                showMessage(myCounters[3], Mood.Bad, context)
-                if (myCounters[3] > 1) {
-                    myCounters[3] = 0
-                }
-                /*TODO: add the quick entry to the database*/ },
-            onMood5Click = { myCounters[4]++
-                showMessage(myCounters[4], Mood.Awful, context)
-                if (myCounters[4] > 1) {
-                    myCounters[4] = 0
-                }
-                /*TODO: add the quick entry to the database*/ },
-            onArrowClick = { /*TODO: remand to the modal for detailed daily entry*/ },
-            onDismissRequest = {isToggled = !isToggled
-                repeat(moodButtonNum) { i ->
-                    myCounters[i] = 0
-                }
-            })
+        isToggled = buildEntryModal(
+            onArrowClick = { /*TODO: remand to the modal for detailed daily entry*/ })
     }
 }
 
@@ -125,27 +77,5 @@ fun AddEntryFAB() {
 fun AddEntryFABPreview() {
     JourlyTheme {
         AddEntryFAB()
-    }
-}
-
-
-/**
- * This function is used to show the Toast messages that inform the user on how to use the quick mood entry modal.
- */
-fun showMessage (counter: Int, mood: Mood, context: Context) {
-    if (counter == 1) {
-        Toast.makeText(context, "Tap on the same button again to add a quick entry with mood value: ${mood.toString()}", Toast.LENGTH_SHORT).show()
-    } else if (counter == 2){
-        Toast.makeText(context, "Quick entry added!", Toast.LENGTH_SHORT).show()
-    }
-}
-
-@Preview
-@Composable
-fun BuildEntryModalPreview() {
-    JourlyTheme {
-        BuildEntryModal( onDismissRequest = {}, onArrowClick = {},
-        onMood1Click = {}, onMood2Click = {}, onMood3Click = {}, onMood4Click = {},
-        onMood5Click = {})
     }
 }
