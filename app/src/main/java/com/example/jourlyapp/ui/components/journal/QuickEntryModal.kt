@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -83,7 +82,7 @@ fun buildEntryModal(
                     )
                 }
 
-                Text(text = stringResource(R.string.quickEntryQuestion), fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.quickEntryQuestion), style = MaterialTheme.typography.bodyLarge)
 
                 Row (
                     Modifier
@@ -103,12 +102,7 @@ fun buildEntryModal(
                             toShow = !toShow
                         }
                     }) {
-                        Icon(
-                            painterResource(id = R.drawable.baseline_sentiment_satisfied_alt_24),
-                            contentDescription = "Button to add a quick entry of the mood: Great",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Unspecified
-                        )
+                        MoodIcon(mood = Mood.Great, modifier = Modifier.size(40.dp))
                     }
                     IconButton(onClick = {
                         myCounters[1]++
@@ -119,12 +113,7 @@ fun buildEntryModal(
                             toShow = !toShow
                         }
                     }) {
-                        Icon(
-                            painterResource(id = R.drawable.baseline_sentiment_satisfied_24),
-                            contentDescription = "Button to add a quick entry of the mood: Good",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Unspecified
-                        )
+                        MoodIcon(mood = Mood.Good, modifier = Modifier.size(40.dp))
                     }
                     IconButton(onClick = { myCounters[2]++
                         showMessage(myCounters[2], Mood.Okay, context)
@@ -134,12 +123,7 @@ fun buildEntryModal(
                             toShow = !toShow
                         }
                     }) {
-                        Icon(
-                            painterResource(id = R.drawable.baseline_sentiment_neutral_24),
-                            contentDescription = "Button to add a quick entry of the mood: Okay",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Unspecified
-                        )
+                        MoodIcon(mood = Mood.Okay, modifier = Modifier.size(40.dp))
                     }
                     IconButton(onClick = {
                         myCounters[3]++
@@ -150,12 +134,7 @@ fun buildEntryModal(
                             toShow = !toShow
                         }
                     }) {
-                        Icon(
-                            painterResource(id = R.drawable.baseline_sentiment_dissatisfied_24),
-                            contentDescription = "Button to add a quick entry of the mood: Bad",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Unspecified
-                        )
+                        MoodIcon(mood = Mood.Bad, modifier = Modifier.size(40.dp))
                     }
                     IconButton(onClick = {
                         myCounters[4]++
@@ -165,13 +144,8 @@ fun buildEntryModal(
                             viewModel.createNewQuickEntry(date = LocalDateTime.now(), Mood.Awful)
                             toShow = !toShow
                         }
-                }) {
-                        Icon(
-                            painterResource(id = R.drawable.outline_sentiment_dissatisfied_24),
-                            contentDescription = "Button to add a quick entry of the mood: Awful",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Unspecified
-                        )
+                    }) {
+                        MoodIcon(mood = Mood.Awful, modifier = Modifier.size(40.dp))
                     }
                 }
             }
