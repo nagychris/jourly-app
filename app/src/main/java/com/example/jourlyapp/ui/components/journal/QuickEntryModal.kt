@@ -104,7 +104,7 @@ fun buildEntryModal(
                         }
                     }) {
                         Icon(
-                            painterResource(id = R.drawable.great_mood_emoji),
+                            painterResource(id = R.drawable.baseline_sentiment_satisfied_alt_24),
                             contentDescription = "Button to add a quick entry of the mood: Great",
                             modifier = Modifier.size(40.dp),
                             tint = Color.Unspecified
@@ -120,7 +120,7 @@ fun buildEntryModal(
                         }
                     }) {
                         Icon(
-                            painterResource(id = R.drawable.good_mood_emoji),
+                            painterResource(id = R.drawable.baseline_sentiment_satisfied_24),
                             contentDescription = "Button to add a quick entry of the mood: Good",
                             modifier = Modifier.size(40.dp),
                             tint = Color.Unspecified
@@ -135,7 +135,7 @@ fun buildEntryModal(
                         }
                     }) {
                         Icon(
-                            painterResource(id = R.drawable.okay_mood_emoji),
+                            painterResource(id = R.drawable.baseline_sentiment_neutral_24),
                             contentDescription = "Button to add a quick entry of the mood: Okay",
                             modifier = Modifier.size(40.dp),
                             tint = Color.Unspecified
@@ -151,7 +151,7 @@ fun buildEntryModal(
                         }
                     }) {
                         Icon(
-                            painterResource(id = R.drawable.bad_mood_emoji),
+                            painterResource(id = R.drawable.baseline_sentiment_dissatisfied_24),
                             contentDescription = "Button to add a quick entry of the mood: Bad",
                             modifier = Modifier.size(40.dp),
                             tint = Color.Unspecified
@@ -167,7 +167,7 @@ fun buildEntryModal(
                         }
                 }) {
                         Icon(
-                            painterResource(id = R.drawable.awful_mood_emoji),
+                            painterResource(id = R.drawable.outline_sentiment_dissatisfied_24),
                             contentDescription = "Button to add a quick entry of the mood: Awful",
                             modifier = Modifier.size(40.dp),
                             tint = Color.Unspecified
