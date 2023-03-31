@@ -38,7 +38,7 @@ fun buildEntryModal(
         viewModel(factory = QuickEntryModalViewModel.Factory)
 
     // Init a list of int that remember their own value. Used to check if the user pressed an emoji button 2 times
-    var myCounters = remember { mutableListOf<Int>() }
+    val myCounters = remember { mutableListOf<Int>() }
     val moodButtonNum = 5
     repeat(moodButtonNum) { i ->
         myCounters.add(0)
@@ -115,8 +115,9 @@ fun buildEntryModal(
                         showMessage(myCounters[1], Mood.Good, context)
                         if (myCounters[1] > 1) {
                             myCounters[1] = 0
+                            viewModel.createNewQuickEntry(date = LocalDateTime.now(), Mood.Good)
+                            toShow = !toShow
                         }
-                        /*TODO: add the quick entry to the database*/
                     }) {
                         Icon(
                             painterResource(id = R.drawable.good_mood_emoji),
@@ -129,6 +130,8 @@ fun buildEntryModal(
                         showMessage(myCounters[2], Mood.Okay, context)
                         if (myCounters[2] > 1) {
                             myCounters[2] = 0
+                            viewModel.createNewQuickEntry(date = LocalDateTime.now(), Mood.Okay)
+                            toShow = !toShow
                         }
                     }) {
                         Icon(
@@ -143,8 +146,9 @@ fun buildEntryModal(
                         showMessage(myCounters[3], Mood.Bad, context)
                         if (myCounters[3] > 1) {
                             myCounters[3] = 0
+                            viewModel.createNewQuickEntry(date = LocalDateTime.now(), Mood.Bad)
+                            toShow = !toShow
                         }
-                        /*TODO: add the quick entry to the database*/
                     }) {
                         Icon(
                             painterResource(id = R.drawable.bad_mood_emoji),
@@ -158,8 +162,9 @@ fun buildEntryModal(
                         showMessage(myCounters[4], Mood.Awful, context)
                         if (myCounters[4] > 1) {
                             myCounters[4] = 0
+                            viewModel.createNewQuickEntry(date = LocalDateTime.now(), Mood.Awful)
+                            toShow = !toShow
                         }
-                    /*TODO: add the quick entry to the database*/
                 }) {
                         Icon(
                             painterResource(id = R.drawable.awful_mood_emoji),
