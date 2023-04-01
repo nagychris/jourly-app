@@ -10,7 +10,7 @@ Please follow the following workflow when contributing [GitHub Flow](https://doc
 
 - Checkout repo (only first time):
 
-`git checkout https://github.com/nagychris/jourly-app.git`
+`git clone https://github.com/nagychris/jourly-app.git`
 
 - Create new feature branch based on `main` (***Note**: _branch-name_ should optimally adhere to this naming schema, to have a better overview: _yourUsername/githubIssueNumber-description_):
 
