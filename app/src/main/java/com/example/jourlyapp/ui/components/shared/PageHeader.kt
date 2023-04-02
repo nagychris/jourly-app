@@ -5,6 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.ui.theme.Typography
 
 @Composable
@@ -16,7 +17,7 @@ fun PageHeader(
     Text(
         text = title,
         fontSize = Typography.titleLarge.fontSize,
-        modifier = if (subtitle.isNotEmpty()) modifier.padding(bottom = 6.dp) else modifier
+        modifier = if (subtitle.isNotEmpty()) modifier.padding(bottom = Margins.vertical) else modifier
     )
     if (subtitle.isNotEmpty())
         Text(
