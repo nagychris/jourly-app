@@ -19,7 +19,7 @@ fun JournalEntryList(
     journalEntries: List<JournalEntry>
 ) {
     Column(modifier = modifier) {
-        Text("Your Timeline", style = MaterialTheme.typography.bodyLarge)
+        Text("Your Timeline", style = MaterialTheme.typography.labelMedium)
         Spacer(modifier = Modifier.height(Margins.vertical))
         LazyColumn {
             items(items = journalEntries, itemContent = {

@@ -6,6 +6,7 @@ import androidx.room.Query
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 /**
  * Interface for simple access of journal entries in local DB.
@@ -25,11 +26,12 @@ interface JournalDao {
      */
     @Query(
         "SELECT * FROM journal_entry " +
-                "WHERE DATE(date) BETWEEN DATE(:startDate) AND DATE(:endDate)"
+                "WHERE DATE(date) BETWEEN strftime('%Y-%m-%d', :startDate)" +
+                " AND strftime('%Y-%m-%d', :endDate)"
     )
     fun getEntriesBetweenDates(
-        startDate: String,
-        endDate: String
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
     ): Flow<List<JournalEntry>>
 
     @Query("DELETE FROM journal_entry WHERE id = :journalEntryId")

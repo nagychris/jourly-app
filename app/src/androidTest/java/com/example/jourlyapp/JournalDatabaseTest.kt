@@ -17,6 +17,7 @@ import org.junit.*
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
@@ -99,8 +100,8 @@ class JournalDatabaseTest {
         )
 
         journalDao.getEntriesBetweenDates(
-            LocalDateTime.now().minusDays(7).toString(),
-            LocalDateTime.now().toString()
+            LocalDateTime.now().minusDays(7).truncatedTo(ChronoUnit.MINUTES),
+            LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         ).test {
             val list = awaitItem()
             assert(expected.size == list.size)

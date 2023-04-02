@@ -1,8 +1,74 @@
 package com.example.jourlyapp.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.jourlyapp.model.journal.entities.JournalEntry
+import com.example.jourlyapp.ui.components.shared.PageHeader
+import com.example.jourlyapp.ui.theme.Margins
+import com.example.jourlyapp.ui.util.ChartUtil
+import com.example.jourlyapp.viewmodel.report.ReportViewModel
+import com.github.tehras.charts.bar.BarChart
+import com.github.tehras.charts.bar.renderer.bar.SimpleBarDrawer
 
 @Composable
-fun ReportScreen() {
-    // TODO: implement
+fun ReportScreen(modifier: Modifier = Modifier) {
+    val viewModel: ReportViewModel =
+        viewModel(factory = ReportViewModel.Factory)
+
+    val journalEntries =
+        viewModel.journalEntries.observeAsState(initial = emptyList())
+
+    Column(
+        modifier = modifier
+            .padding(
+                horizontal = Margins.horizontal,
+                vertical = Margins.verticalLarge
+            ),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        PageHeader(
+            title = "Your Personal Report",
+            modifier = Modifier.padding(bottom = Margins.verticalLarge)
+        )
+        // TODO: add exposed dropdown menu box to select timeframe (last Week / Month / Year)
+        MoodFrequenciesBarChart(journalEntries = journalEntries.value)
+    }
+}
+
+@Composable
+private fun MoodFrequenciesBarChart(journalEntries: List<JournalEntry>?) {
+    Column {
+        Text(
+            "Mood Frequencies",
+            style = MaterialTheme.typography.labelMedium
+        )
+        Spacer(modifier = Modifier.height(Margins.horizontalLarge))
+        Row(
+            modifier = Modifier
+                .height(150.dp)
+        ) {
+            if (journalEntries.isNullOrEmpty())
+                Text(
+                    text = "No data available",
+                )
+            else
+                BarChart(
+                    barChartData = ChartUtil.getBarChartData(entries = journalEntries),
+                    barDrawer = SimpleBarDrawer(),
+                )
+        }
+    }
 }
