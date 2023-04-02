@@ -19,7 +19,7 @@ interface JournalDao {
     @Query("SELECT * FROM journal_entry ORDER BY date DESC")
     fun getEntries(): Flow<List<JournalEntry>>
 
-    @Query("SELECT * FROM journal_entry WHERE id =:journalEntryId")
+    @Query("SELECT * FROM journal_entry WHERE id = :journalEntryId")
     fun getEntryById(journalEntryId: Int): JournalEntry
 
     @Query("DELETE FROM journal_entry WHERE id = :journalEntryId")
