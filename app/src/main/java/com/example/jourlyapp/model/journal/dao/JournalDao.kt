@@ -16,8 +16,21 @@ interface JournalDao {
     @Insert
     suspend fun insertEntry(entry: JournalEntry)
 
-    @Query("SELECT * FROM journal_entry ORDER BY date DESC")
+    @Query("SELECT * FROM journal_entry ORDER BY DATETIME(date) DESC")
     fun getEntries(): Flow<List<JournalEntry>>
+
+    /**
+     * Retrieves all journal entries between the two provided dates as strings.
+     * The method does only consider the day, no hours or minutes.
+     */
+    @Query(
+        "SELECT * FROM journal_entry " +
+                "WHERE DATE(date) BETWEEN DATE(:startDate) AND DATE(:endDate)"
+    )
+    fun getEntriesBetweenDates(
+        startDate: String,
+        endDate: String
+    ): Flow<List<JournalEntry>>
 
     @Query("DELETE FROM journal_entry WHERE id = :journalEntryId")
     suspend fun deleteEntryById(journalEntryId: Int)
