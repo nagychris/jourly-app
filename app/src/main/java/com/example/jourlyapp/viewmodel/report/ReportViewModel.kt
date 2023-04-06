@@ -1,29 +1,44 @@
 package com.example.jourlyapp.viewmodel.report
 
-import androidx.lifecycle.LiveData
+import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.jourlyapp.JourlyApplication
 import com.example.jourlyapp.model.journal.JournalRepository
 import com.example.jourlyapp.model.journal.entities.JournalEntry
+import com.example.jourlyapp.model.report.DateRange
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
+const val TAG = "ReportViewModel"
+
 class ReportViewModel(val journalRepository: JournalRepository) : ViewModel() {
-    private val today = LocalDateTime.now()
+    // end date is always today, because we consider the past x days
+    private val endDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
 
-    // end date is always today
-    private val endDate = today.truncatedTo(ChronoUnit.MINUTES)
+    // default is past week
+    private val startDate = mutableStateOf(
+        DateRange.PAST_WEEK.startDate
+    )
 
-    // startDate: today - 1 week OR today - 1 month OR ...
-    private val startDate = today.minusWeeks(1).truncatedTo(ChronoUnit.MINUTES)
+    val journalEntries: State<Flow<List<JournalEntry>>> =
+        derivedStateOf {
+            journalRepository.getJournalEntriesBetweenDates(
+                startDate.value,
+                endDate
+            )
+        }
 
-    val journalEntries: LiveData<List<JournalEntry>> =
-        journalRepository.getJournalEntriesBetweenDates(startDate, endDate)
-            .asLiveData()
+    fun updateStartDate(dateRange: DateRange) {
+        startDate.value = dateRange.startDate
+        Log.d(TAG, "New startDate ${startDate.value}")
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
