@@ -17,6 +17,9 @@ interface JournalDao {
     @Insert
     suspend fun insertEntry(entry: JournalEntry)
 
+    @Insert
+    suspend fun insertAllEntries(entries: List<JournalEntry>)
+
     @Query("SELECT * FROM journal_entry ORDER BY DATETIME(date) DESC")
     fun getEntries(): Flow<List<JournalEntry>>
 
@@ -42,6 +45,9 @@ interface JournalDao {
 
     @Insert
     suspend fun insertQuestionAnswerPair(questionAnswerPair: QuestionAnswerPair)
+
+    @Insert
+    suspend fun insertAllQAPairs(questionAnswerPairs: List<QuestionAnswerPair>)
 
     @Query(
         "SELECT qa.id, qa.journal_entry_id, qa.question, qa.answer FROM journal_entry " +
