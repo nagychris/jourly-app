@@ -3,6 +3,7 @@ package com.example.jourlyapp.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -49,15 +50,21 @@ fun ReportScreen(modifier: Modifier = Modifier) {
                     viewModel.updateStartDate(dateRange)
                 }
             })
-        Spacer(modifier = Modifier.height(Margins.verticalLarge))
-        MoodFrequenciesBarChart(
-            journalEntries = journalEntries.value,
-            5
-        )
-        Spacer(modifier = Modifier.height(Margins.verticalLarge))
-        MoodDevelopmentLineChart(
-            journalEntries = journalEntries.value,
-            if (viewModel.isWeekRange.value) 1 else 7
-        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(Margins.verticalLarge))
+            MoodFrequenciesBarChart(
+                journalEntries = journalEntries.value,
+                5
+            )
+            Spacer(modifier = Modifier.height(Margins.verticalLarge))
+            MoodDevelopmentLineChart(
+                journalEntries = journalEntries.value,
+                if (viewModel.isWeekRange.value) 1 else 7
+            )
+        }
+
     }
 }
