@@ -30,7 +30,7 @@ interface JournalDao {
     @Query(
         "SELECT * FROM journal_entry " +
                 "WHERE DATE(date) BETWEEN strftime('%Y-%m-%d', :startDate)" +
-                " AND strftime('%Y-%m-%d', :endDate)"
+                " AND strftime('%Y-%m-%d', :endDate) ORDER BY DATETIME(date) ASC"
     )
     fun getEntriesBetweenDates(
         startDate: LocalDateTime,

@@ -35,6 +35,10 @@ class ReportViewModel(val journalRepository: JournalRepository) : ViewModel() {
             )
         }
 
+    val isWeekRange = derivedStateOf {
+        startDate.value == DateRange.PAST_WEEK.startDate
+    }
+
     fun updateStartDate(dateRange: DateRange) {
         startDate.value = dateRange.startDate
         Log.d(TAG, "New startDate ${startDate.value}")

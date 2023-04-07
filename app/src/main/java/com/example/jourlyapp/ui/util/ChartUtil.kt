@@ -5,22 +5,24 @@ import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.theme.Blue100
 import com.example.jourlyapp.ui.theme.Blue80
-import com.example.jourlyapp.ui.theme.Danger100
-import com.example.jourlyapp.ui.theme.Danger80
 import com.example.jourlyapp.ui.theme.Purple80
+import com.example.jourlyapp.ui.theme.Success100
+import com.example.jourlyapp.ui.theme.Success80
 import com.example.jourlyapp.ui.theme.TextLight
 import com.github.tehras.charts.bar.BarChartData
+import com.github.tehras.charts.line.LineChartData
+import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
 
 class ChartUtil {
     companion object {
         fun getBarChartData(
             entries: List<JournalEntry>,
             colorMap: Map<Mood, Color> = mapOf(
-                Mood.Awful to Danger100,
-                Mood.Bad to Danger80,
+                Mood.Awful to Blue100,
+                Mood.Bad to Blue80,
                 Mood.Okay to TextLight,
-                Mood.Good to Blue80,
-                Mood.Great to Blue100
+                Mood.Good to Success80,
+                Mood.Great to Success100
             )
         ): BarChartData {
             val moodFrequencies = mutableMapOf(
@@ -47,6 +49,28 @@ class ChartUtil {
                     )
                 }
             )
+        }
+
+        fun getLineChartData(
+            entries: List<JournalEntry>,
+        ): LineChartData {
+            return LineChartData(
+                points = entries.map {
+                    LineChartData.Point(
+                        it.mood.ordinal.toFloat(),
+                        it.mood.toString()
+                    )
+                },
+                lineDrawer = SolidLineDrawer(
+                    color = Blue80
+                ),
+            )
+        }
+
+        fun journalEntriesToDateLabels(entries: List<JournalEntry>): List<String> {
+            return entries.map {
+                DateTimeParser.toShortDateString(it.date)
+            }
         }
     }
 }
