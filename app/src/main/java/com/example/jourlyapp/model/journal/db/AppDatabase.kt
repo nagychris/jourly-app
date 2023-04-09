@@ -121,7 +121,6 @@ abstract class AppDatabase : RoomDatabase() {
                     null
                 )
                 list.add(qaPair)
-                Log.d(TAG, "Dummy QA-Pair: $qaPair")
             }
             return list
         }
