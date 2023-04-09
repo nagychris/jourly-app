@@ -99,7 +99,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun getDummyEntries(): List<JournalEntry> {
             val list = mutableListOf<JournalEntry>()
-            repeat(365) {
+            repeat(100) {
                 list.add(
                     JournalEntry(
                         it,

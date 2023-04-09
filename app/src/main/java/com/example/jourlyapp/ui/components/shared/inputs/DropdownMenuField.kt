@@ -24,7 +24,6 @@ fun DropdownMenuField(
         mutableStateOf(false)
     }
 
-    // remember the selected item
     var selectedItem by remember {
         mutableStateOf(items[0])
     }
