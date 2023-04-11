@@ -46,7 +46,6 @@ fun AddEntryFAB() {
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
-            //buildEntryModal()
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -68,8 +67,14 @@ fun AddEntryFAB() {
 
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
     if (isToggled) {
-        isToggled = buildEntryModal()
+        onToggle(onClose = {isToggled = false})
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun onToggle(onClose: () -> Unit) {
+    buildEntryModal(onClose)
 }
 
 @Preview
