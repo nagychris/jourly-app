@@ -33,7 +33,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddEntryFAB() {
 
@@ -46,6 +46,7 @@ fun AddEntryFAB() {
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
+            //buildEntryModal()
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -67,8 +68,7 @@ fun AddEntryFAB() {
 
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
     if (isToggled) {
-        isToggled = buildEntryModal(
-            onArrowClick = { /*TODO: remand to the modal for detailed daily entry*/ })
+        isToggled = buildEntryModal()
     }
 }
 
