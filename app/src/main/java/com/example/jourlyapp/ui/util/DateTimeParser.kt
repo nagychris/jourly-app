@@ -5,10 +5,15 @@ import java.time.format.DateTimeFormatter
 
 class DateTimeParser {
     companion object {
-        private val dateFormatter = DateTimeFormatter.ofPattern("d MMM uuuu")
+        private val longFormatter = DateTimeFormatter.ofPattern("d MMM uuuu")
+        private val shortFormatter = DateTimeFormatter.ofPattern("d/M")
 
-        fun toDateString(localDateTime: LocalDateTime): String {
-            return dateFormatter.format(localDateTime)
+        fun toLongDateString(localDateTime: LocalDateTime): String {
+            return longFormatter.format(localDateTime)
+        }
+
+        fun toShortDateString(localDateTime: LocalDateTime): String {
+            return shortFormatter.format(localDateTime)
         }
     }
 }

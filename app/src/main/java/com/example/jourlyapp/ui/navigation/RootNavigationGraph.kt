@@ -40,9 +40,7 @@ fun RootNavigationGraph(
             )
         }
         composable(route = AppRoute.Journal.route) {
-            JournalScreen(
-                modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
-            )
+            JournalScreen()
         }
         composable(route = AppRoute.Profile.route) {
             ProfileScreen(
@@ -55,7 +53,9 @@ fun RootNavigationGraph(
             ChallengesScreen()
         }
         composable(route = AppRoute.Report.route) {
-            ReportScreen()
+            ReportScreen(
+                modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
+            )
         }
 
     }

@@ -73,103 +73,56 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
-                scope.launch {
-                    val journalDao = database.journalDao()
+                fillDatabaseWithDummyData(database)
+            }
+        }
 
-                    // clear contents
-                    journalDao.deleteAllEntries()
-                    journalDao.deleteAllQuestionAnswerPairs()
-                    Log.d(TAG, "Deleted all entries from DB")
+        private fun fillDatabaseWithDummyData(database: AppDatabase) {
+            scope.launch {
+                val journalDao = database.journalDao()
 
-                    // insert dummy entries and QA-pairs
-                    repeat(10) {
-                        journalDao.insertEntry(
-                            JournalEntry(
-                                null,
-                                LocalDateTime.now().minusDays(it.toLong()),
-                                Mood.values()[Random.nextInt(
-                                    Mood.Awful.ordinal,
-                                    Mood.Great.ordinal
-                                )]
-                            ),
-                        )
-                    }
-                    Log.d(
-                        TAG,
-                        "Inserted entries ${getDummyEntries()}"
+                // clear contents
+                journalDao.deleteAllQuestionAnswerPairs()
+                journalDao.deleteAllEntries()
+                Log.d(TAG, "Deleted all entries from DB")
+
+                val dummyEntries = getDummyEntries()
+                journalDao.insertAllEntries(dummyEntries)
+
+                journalDao.insertAllQAPairs(
+                    getDummyQuestionAnswerPairs(
+                        dummyEntries.size
                     )
-
-                    getDummyQuestionAnswerPairs().forEach {
-                        journalDao.insertQuestionAnswerPair(it)
-                    }
-                }
+                )
             }
         }
 
         private fun getDummyEntries(): List<JournalEntry> {
-            return listOf(
-                JournalEntry(null, LocalDateTime.now(), Mood.Great),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(1),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(2),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(3),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(4),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(5),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(6),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(7),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(8),
-                    Mood.Great
-                ),
-                JournalEntry(
-                    null,
-                    LocalDateTime.now().minusDays(9),
-                    Mood.Great
-                ),
-
+            val list = mutableListOf<JournalEntry>()
+            repeat(100) {
+                list.add(
+                    JournalEntry(
+                        it,
+                        LocalDateTime.now().minusDays(it.toLong()),
+                        Mood.values()[Random.nextInt(1, Mood.values().size)]
+                    )
                 )
+            }
+            return list
         }
 
-        private fun getDummyQuestionAnswerPairs(): List<QuestionAnswerPair> {
-            return listOf(
-                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION1.toString(), null),
-                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION2.toString(), null),
-                QuestionAnswerPair(null, 1, JournalQuestion.QUESTION3.toString(), null),
-                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION1.toString(), null),
-                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION2.toString(), null),
-                QuestionAnswerPair(null, 2, JournalQuestion.QUESTION3.toString(), null),
-                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION1.toString(), null),
-                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION2.toString(), null),
-                QuestionAnswerPair(null, 3, JournalQuestion.QUESTION3.toString(), null),
-            )
+        private fun getDummyQuestionAnswerPairs(journalEntriesCount: Int): List<QuestionAnswerPair> {
+            val list = mutableListOf<QuestionAnswerPair>()
+            repeat(200) {
+                val qaPair = QuestionAnswerPair(
+                    null,
+                    Random.nextInt(0, journalEntriesCount),
+                    JournalQuestion.values()[Random.nextInt(JournalQuestion.values().size)].toString(),
+                    null
+                )
+                list.add(qaPair)
+            }
+            return list
         }
     }
 }
