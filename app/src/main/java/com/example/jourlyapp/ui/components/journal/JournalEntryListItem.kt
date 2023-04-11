@@ -54,7 +54,7 @@ fun JournalEntryListItem(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = DateTimeParser.toDateString(journalEntry.date),
+                    text = DateTimeParser.toLongDateString(journalEntry.date),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

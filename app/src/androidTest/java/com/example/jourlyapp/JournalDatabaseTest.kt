@@ -17,6 +17,7 @@ import org.junit.*
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
@@ -26,15 +27,21 @@ class JournalDatabaseTest {
     private lateinit var journalDao: JournalDao
 
     private val entries = listOf(
-        JournalEntry(null, LocalDateTime.of(2022, 12, 1, 12, 0, 0), Mood.Okay),
-        JournalEntry(null, LocalDateTime.of(2022, 12, 2, 12, 0, 0), Mood.Great),
-        JournalEntry(null, LocalDateTime.of(2022, 12, 3, 12, 0, 0), Mood.Bad),
+        JournalEntry(null, LocalDateTime.now().plusDays(1), Mood.Okay),
+        JournalEntry(null, LocalDateTime.now(), Mood.Okay),
+        JournalEntry(null, LocalDateTime.now().minusDays(1), Mood.Great),
+        JournalEntry(null, LocalDateTime.now().minusDays(2), Mood.Great),
+        JournalEntry(null, LocalDateTime.now().minusDays(3), Mood.Great),
+        JournalEntry(null, LocalDateTime.now().minusDays(10), Mood.Bad),
     )
 
     private val expectedEntries = listOf(
-        JournalEntry(1, LocalDateTime.of(2022, 12, 1, 12, 0, 0), Mood.Okay),
-        JournalEntry(2, LocalDateTime.of(2022, 12, 2, 12, 0, 0), Mood.Great),
-        JournalEntry(3, LocalDateTime.of(2022, 12, 3, 12, 0, 0), Mood.Bad),
+        JournalEntry(1, LocalDateTime.now().plusDays(1), Mood.Okay),
+        JournalEntry(2, LocalDateTime.now(), Mood.Okay),
+        JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
+        JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
+        JournalEntry(5, LocalDateTime.now().minusDays(3), Mood.Great),
+        JournalEntry(6, LocalDateTime.now().minusDays(10), Mood.Bad),
     )
 
     private val questionAnswerPairs = listOf(
@@ -78,10 +85,27 @@ class JournalDatabaseTest {
     fun insertedEntriesShouldBePresent() = runTest {
         journalDao.getEntries().test {
             val list = awaitItem()
-            assert(list.size == 3)
-            assert(list.contains(expectedEntries[0]))
-            assert(list.contains(expectedEntries[1]))
-            assert(list.contains(expectedEntries[2]))
+            assert(list == expectedEntries)
+            cancel()
+        }
+    }
+
+    @Test
+    fun getEntriesBetweenDatesReturnsExpectedEntries() = runTest {
+        val expected = listOf(
+            JournalEntry(2, LocalDateTime.now(), Mood.Okay),
+            JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
+            JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
+            JournalEntry(5, LocalDateTime.now().minusDays(3), Mood.Great),
+        )
+
+        journalDao.getEntriesBetweenDates(
+            LocalDateTime.now().minusDays(7).truncatedTo(ChronoUnit.MINUTES),
+            LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
+        ).test {
+            val list = awaitItem()
+            assert(expected.size == list.size)
+            assert(list == expected)
             cancel()
         }
     }
@@ -92,10 +116,12 @@ class JournalDatabaseTest {
 
         journalDao.getEntries().test {
             val list = awaitItem()
-            assert(list.size == 2)
+            assert(list.size == expectedEntries.size - 1)
             assert(list.contains(expectedEntries[0]))
             assert(!list.contains(expectedEntries[1]))
             assert(list.contains(expectedEntries[2]))
+            assert(list.contains(expectedEntries[3]))
+            assert(list.contains(expectedEntries[4]))
             cancel()
         }
     }
