@@ -18,5 +18,6 @@ class JournalRepository(private val journalDao: JournalDao) {
             endDate
         )
     }
+    suspend fun createEntry(journalEntry: JournalEntry) = journalDao.insertEntry(journalEntry)
 
 }
