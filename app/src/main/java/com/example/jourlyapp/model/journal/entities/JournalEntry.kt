@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.jourlyapp.model.journal.enums.Mood
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 /**
  * Simple journal entry with the current date and the mood.
@@ -14,6 +15,11 @@ import java.time.LocalDateTime
 data class JournalEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-    val date: LocalDateTime = LocalDateTime.now(),
+    var date: LocalDateTime = LocalDateTime.now(),
     var mood: Mood = Mood.None,
-)
+) {
+    init {
+        // for now accuracy of minutes are enough
+        date = date.truncatedTo(ChronoUnit.MINUTES)
+    }
+}

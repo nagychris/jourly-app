@@ -25,7 +25,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jourlyapp.ui.navigation.AppRoute
 import com.example.jourlyapp.ui.theme.JourlyTheme
-import com.example.jourlyapp.ui.theme.Typography
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -75,7 +74,7 @@ fun BottomNavigationBar(navController: NavController) {
                         Text(
                             text = stringResource(id = navItem.titleResourceId),
                             color = Color.White,
-                            fontSize = Typography.labelSmall.fontSize
+                            style = MaterialTheme.typography.bodySmall
                         )
                     },
                     selectedContentColor = MaterialTheme.colorScheme.background,

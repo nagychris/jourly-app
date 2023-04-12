@@ -6,7 +6,7 @@ import com.example.jourlyapp.R
  * Possible mood values used to represent the user's current feeling.
  */
 enum class Mood {
-    None, Great, Good, Okay, Bad, Awful;
+    None, Awful, Bad, Okay, Good, Great;
 
     fun toDrawableId(): Int {
         return when (this) {
@@ -16,6 +16,12 @@ enum class Mood {
             Okay -> R.drawable.baseline_sentiment_neutral_24
             Bad -> R.drawable.baseline_sentiment_dissatisfied_24
             Awful -> R.drawable.outline_sentiment_dissatisfied_24
+        }
+    }
+
+    companion object {
+        fun fromOrdinal(value: Int): Mood? {
+            return values().find { it.ordinal == value }
         }
     }
 }

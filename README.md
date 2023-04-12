@@ -8,9 +8,9 @@ Please follow the following workflow when contributing [GitHub Flow](https://doc
 
 - (Pick issue and assign it to yourself => usually this is done in our weekly meetings)
 
-- Checkout repo (only first time):
+- Clone repo (only first time):
 
-`git checkout https://github.com/nagychris/jourly-app.git`
+`git clone https://github.com/nagychris/jourly-app.git`
 
 - Create new feature branch based on `main` (***Note**: _branch-name_ should optimally adhere to this naming schema, to have a better overview: _yourUsername/githubIssueNumber-description_):
 
