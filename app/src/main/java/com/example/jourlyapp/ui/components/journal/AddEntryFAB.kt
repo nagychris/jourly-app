@@ -33,12 +33,21 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddEntryFAB() {
 
-    // If true, a Close-Icon is shown instead of an Add-Icon.
+    /**
+     *If true, a Close-Icon is shown instead of an Add-Icon.
+    */
     var isToggled by remember {
+        mutableStateOf(false)
+    }
+
+    /**
+     *If true, a the modal for a quick entry is shown.
+     */
+    var onToggle by remember {
         mutableStateOf(false)
     }
 
@@ -46,6 +55,7 @@ fun AddEntryFAB() {
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
+            onToggle = !onToggle
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -66,9 +76,10 @@ fun AddEntryFAB() {
     }
 
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
-    if (isToggled) {
-        isToggled = buildEntryModal(
-            onArrowClick = { /*TODO: remand to the modal for detailed daily entry*/ })
+    if (onToggle) {
+        buildEntryModal(onClose = {onToggle = false})
+    } else {
+        isToggled = false
     }
 }
 
