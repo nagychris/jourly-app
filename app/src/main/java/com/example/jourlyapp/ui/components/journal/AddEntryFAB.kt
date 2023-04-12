@@ -37,8 +37,17 @@ import java.time.LocalDateTime
 @Composable
 fun AddEntryFAB() {
 
-    // If true, a Close-Icon is shown instead of an Add-Icon.
+    /**
+     *If true, a Close-Icon is shown instead of an Add-Icon.
+    */
     var isToggled by remember {
+        mutableStateOf(false)
+    }
+
+    /**
+     *If true, a the modal for a quick entry is shown.
+     */
+    var onToggle by remember {
         mutableStateOf(false)
     }
 
@@ -46,6 +55,7 @@ fun AddEntryFAB() {
         shape = CircleShape,
         onClick = {
             isToggled = !isToggled
+            onToggle = !onToggle
         },
         contentColor = Color.White,
         containerColor = MaterialTheme.colorScheme.secondary
@@ -66,15 +76,11 @@ fun AddEntryFAB() {
     }
 
     // If the value of isToggled is "true", it opens the dialog by calling the BuildEntryModal function
-    if (isToggled) {
-        onToggle(onClose = {isToggled = false})
+    if (onToggle) {
+        buildEntryModal(onClose = {onToggle = false})
+    } else {
+        isToggled = false
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun onToggle(onClose: () -> Unit) {
-    buildEntryModal(onClose)
 }
 
 @Preview
