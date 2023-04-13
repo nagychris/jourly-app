@@ -1,17 +1,24 @@
 package com.example.jourlyapp.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jourlyapp.ui.components.shared.PageHeader
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
@@ -40,15 +47,30 @@ fun ProfileScreen(
             modifier = modifier.padding(bottom = Margins.verticalLarge)
         )
         if (viewModel.userName.value.isNotEmpty()) {
-            Text(text = "This is ${viewModel.userName.value}'s Journal.")
-            Spacer(modifier = modifier.height(Margins.vertical))
-            BaseButton(
-                onClick = onChangeUserClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                )
+            Card(
+                modifier = modifier.fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(corner = CornerSize(16.dp))
             ) {
-                Text("Delete User Details")
+                Column(
+                    modifier = modifier.padding(
+                        vertical = Margins.vertical,
+                        horizontal = Margins.horizontal
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(Margins.vertical),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(text = "This is ${viewModel.userName.value}'s Journal.")
+                    BaseButton(
+                        onClick = onChangeUserClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error,
+                        )
+                    ) {
+                        Text("Delete User Details")
+                    }
+                }
             }
         }
 

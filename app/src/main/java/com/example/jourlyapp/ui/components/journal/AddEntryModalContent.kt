@@ -1,5 +1,6 @@
 package com.example.jourlyapp.ui.components.journal
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -26,11 +27,18 @@ import com.example.jourlyapp.R
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.QuickEntryModalViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 @Composable
 @ExperimentalMaterial3Api
-fun AddEntryModalContent() {
+fun AddEntryModalContent(
+    modifier: Modifier,
+    coroutineScope: CoroutineScope,
+    onMoodIconClick: suspend () -> Unit,
+    onExpandClick: () -> Unit
+) {
     val viewModel: QuickEntryModalViewModel =
         viewModel(factory = QuickEntryModalViewModel.Factory)
 
@@ -38,20 +46,20 @@ fun AddEntryModalContent() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(
                 horizontal = Margins.horizontalLarge,
                 vertical = Margins.verticalLarge
             ),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
     ) {
         // This IconButton could be removed to use only the ModalBottomSheet already present draggable functionality
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onExpandClick) {
             Icon(
                 painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24),
                 contentDescription = "Expand for more detailed entry",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier
+                    .size(24.dp)
             )
         }
 
@@ -59,7 +67,6 @@ fun AddEntryModalContent() {
             text = stringResource(R.string.quickEntryQuestion),
             style = MaterialTheme.typography.bodyLarge
         )
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,105 +76,92 @@ fun AddEntryModalContent() {
         ) {
             MoodIcon(
                 mood = Mood.Great, modifier = Modifier
-                    .size(40.dp)
+                    .size(32.dp)
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onDoubleTap = {
-                                viewModel.createNewQuickEntry(
-                                    date = LocalDateTime.now(),
-                                    mood = Mood.Great
-                                )
-                                Toast
-                                    .makeText(
+                                coroutineScope.launch {
+                                    onMoodIconClick()
+                                    addQuickEntry(
+                                        viewModel,
                                         context,
-                                        "Quick entry added!",
-                                        Toast.LENGTH_SHORT
+                                        Mood.Great
                                     )
-                                    .show()
+                                }
                             }
                         )
                     }
             )
             MoodIcon(mood = Mood.Good, modifier = Modifier
-                .size(40.dp)
+                .size(32.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
-                            viewModel.createNewQuickEntry(
-                                date = LocalDateTime.now(),
-                                mood = Mood.Good
-                            )
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Quick entry added!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutineScope.launch {
+                                onMoodIconClick()
+                                addQuickEntry(viewModel, context, Mood.Good)
+                            }
                         }
                     )
                 }
             )
             MoodIcon(mood = Mood.Okay, modifier = Modifier
-                .size(40.dp)
+                .size(32.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
-                            viewModel.createNewQuickEntry(
-                                date = LocalDateTime.now(),
-                                mood = Mood.Okay
-                            )
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Quick entry added!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutineScope.launch {
+                                onMoodIconClick()
+                                addQuickEntry(viewModel, context, Mood.Okay)
+                            }
                         }
                     )
                 }
             )
             MoodIcon(mood = Mood.Bad, modifier = Modifier
-                .size(40.dp)
+                .size(32.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
-                            viewModel.createNewQuickEntry(
-                                date = LocalDateTime.now(),
-                                mood = Mood.Bad
-                            )
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Quick entry added!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutineScope.launch {
+                                onMoodIconClick()
+                                addQuickEntry(viewModel, context, Mood.Bad)
+                            }
                         }
                     )
                 }
             )
             MoodIcon(mood = Mood.Awful, modifier = Modifier
-                .size(40.dp)
+                .size(32.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
-                            viewModel.createNewQuickEntry(
-                                date = LocalDateTime.now(),
-                                mood = Mood.Awful
-                            )
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Quick entry added!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutineScope.launch {
+                                onMoodIconClick()
+                                addQuickEntry(viewModel, context, Mood.Awful)
+                            }
                         }
                     )
                 }
             )
         }
     }
+}
+
+fun addQuickEntry(
+    viewModel: QuickEntryModalViewModel,
+    context: Context,
+    mood: Mood
+) {
+    viewModel.createNewQuickEntry(
+        date = LocalDateTime.now(),
+        mood = mood
+    )
+    Toast
+        .makeText(
+            context,
+            "Quick entry added!",
+            Toast.LENGTH_SHORT
+        )
+        .show()
 }
