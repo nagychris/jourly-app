@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jourlyapp.ui.navigation.AppRoute
 import com.example.jourlyapp.ui.theme.JourlyTheme
+import com.example.jourlyapp.ui.theme.Margins
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -38,7 +39,7 @@ fun BottomNavigationBar(navController: NavController) {
         cutoutShape = CircleShape,
         backgroundColor = MaterialTheme.colorScheme.primary,
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp)),
+            .clip(RoundedCornerShape(Margins.vertical, Margins.vertical, 0.dp, 0.dp)),
         elevation = 0.dp,
         contentColor = Color.White
     ) {
