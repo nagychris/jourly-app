@@ -63,7 +63,10 @@ fun DeleteEntryDialog (
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
-                    Row (horizontalArrangement = Arrangement.SpaceEvenly){
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ){
                         BaseButton(
                             onClick = {
                                 openDialog = false
@@ -73,7 +76,7 @@ fun DeleteEntryDialog (
                                 containerColor = Blue80
                             )
                         ) {
-                            Text(text ="Cancel")
+                            Text(text = "Cancel")
                         }
                         BaseButton(
                             onClick = {
