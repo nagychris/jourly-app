@@ -12,4 +12,5 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="quickEntryQuestion">What is your mood today?</string>
+    <string name="deleteEntryQuestion">Do you want to permanently delete the following entry?</string>
 </resources>

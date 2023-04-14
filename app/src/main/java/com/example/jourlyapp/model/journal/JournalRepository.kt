@@ -19,5 +19,6 @@ class JournalRepository(private val journalDao: JournalDao) {
         )
     }
     suspend fun createEntry(journalEntry: JournalEntry) = journalDao.insertEntry(journalEntry)
+    suspend fun deleteEntryById (entryId: Int) = journalDao.deleteEntryById(journalEntryId = entryId)
 
 }
