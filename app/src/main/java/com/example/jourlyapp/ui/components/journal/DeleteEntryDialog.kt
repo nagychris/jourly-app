@@ -8,36 +8,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.jourlyapp.model.journal.entities.JournalEntry
-import com.example.jourlyapp.viewmodel.journal.JournalViewModel
 import com.example.jourlyapp.R
+import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
-import com.example.jourlyapp.ui.theme.Blue80
 import com.example.jourlyapp.ui.util.DateTimeParser
+import com.example.jourlyapp.viewmodel.journal.JournalViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DeleteEntryDialog (
+fun DeleteEntryDialog(
     viewModel: JournalViewModel,
     currentEntry: JournalEntry,
-    onDismiss: () -> Unit
-    ){
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
 
     var openDialog by remember {
         mutableStateOf(true)
     }
 
-    if(openDialog) {
+    if (openDialog)
         AlertDialog(
             onDismissRequest = {
                 openDialog = false
                 onDismiss()
             }
         ) {
-            Surface(modifier = Modifier
-                .wrapContentWidth()
-                .wrapContentHeight(),
+            Surface(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
                 shape = MaterialTheme.shapes.large
             ) {
                 Column(
@@ -63,23 +64,24 @@ fun DeleteEntryDialog (
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
-                    Row (
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
-                    ){
-                        BaseButton(
+                    ) {
+                        OutlinedButton(
                             onClick = {
                                 openDialog = false
                                 onDismiss()
                             },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Blue80
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onBackground
                             )
                         ) {
                             Text(text = "Cancel")
                         }
                         BaseButton(
                             onClick = {
+                                onConfirm()
                                 viewModel.deleteEntry(currentEntry.id!!)
                                 openDialog = false
                             },
@@ -93,6 +95,5 @@ fun DeleteEntryDialog (
                 }
             }
         }
-    }
 
 }
