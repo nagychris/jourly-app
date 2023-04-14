@@ -14,7 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -35,20 +35,19 @@ fun JournalEntryListItem(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
     ) {
-        Row(
+        Row (
             modifier = Modifier.padding(16.dp)
         ) {
             MoodIcon(
                 mood = journalEntry.mood,
-                modifier.align(CenterVertically)
+                modifier.align(Alignment.CenterVertically)
             )
             Spacer(modifier.width(16.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(CenterVertically)
+                    .align(Alignment.CenterVertically)
             ) {
-
                 Text(
                     text = journalEntry.mood.name,
                     style = MaterialTheme.typography.bodyLarge
