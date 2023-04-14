@@ -7,6 +7,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jourlyapp.ui.components.journal.JournalEntryList
+import com.example.jourlyapp.ui.components.journal.JournalEntryListSwipe
 import com.example.jourlyapp.ui.components.shared.PageHeader
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.journal.JournalViewModel
