@@ -26,11 +26,6 @@ interface JournalDao {
     @Query("SELECT * FROM journal_entry WHERE id = :journalEntryId")
     fun getEntryById(journalEntryId: Int): JournalEntry
 
-    @Query(
-        "SELECT * FROM journal_entry ORDER BY DATETIME(date) DESC LIMIT 1"
-    )
-    fun getLastEntry() : JournalEntry
-
     /**
      * Retrieves all journal entries between the two provided dates as strings.
      * The method does only consider the day, no hours or minutes.
