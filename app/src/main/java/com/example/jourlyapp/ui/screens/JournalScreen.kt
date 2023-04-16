@@ -34,6 +34,7 @@ fun JournalScreen(
         )
         JournalEntryList(
             journalEntries = journalEntries.value,
+            viewModel = viewModel
         )
     }
 }

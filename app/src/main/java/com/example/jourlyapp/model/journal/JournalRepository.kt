@@ -14,6 +14,8 @@ interface JournalRepository {
     ): Flow<List<JournalEntry>>
 
     suspend fun createEntry(journalEntry: JournalEntry)
+
+    suspend fun deleteEntryById(entryId: Int)
 }
 
 class JournalRepositoryImpl(private val journalDao: JournalDao) :
@@ -35,4 +37,6 @@ class JournalRepositoryImpl(private val journalDao: JournalDao) :
     override suspend fun createEntry(journalEntry: JournalEntry) =
         journalDao.insertEntry(journalEntry)
 
+    override suspend fun deleteEntryById(entryId: Int) =
+        journalDao.deleteEntryById(journalEntryId = entryId)
 }
