@@ -30,7 +30,7 @@ fun AddEntryModalContent(
     coroutineScope: CoroutineScope,
     onMoodIconClick: suspend () -> Unit,
     onExpandClick: () -> Unit,
-    onShrinkClick: () -> Unit,
+    onCollapseClick: () -> Unit,
     isFullScreen: Boolean,
     onDetailedClose: () -> Unit
 ) {
@@ -70,12 +70,12 @@ fun AddEntryModalContent(
             IconButton(
                 onClick = {
                     viewModel.updateMood(Mood.None)
-                    onShrinkClick()
+                    onCollapseClick()
                 }
             ) {
                 Icon(
                     painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
-                    contentDescription = "Expand for more detailed entry",
+                    contentDescription = "Collapse for quick entry",
                     modifier = Modifier
                         .size(24.dp)
                 )
