@@ -10,18 +10,18 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.jourlyapp.JourlyApplication
 import com.example.jourlyapp.model.auth.UserRepository
-import com.example.jourlyapp.model.journal.JournalRepository
+import com.example.jourlyapp.model.journal.JournalRepositoryImpl
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 
 class JournalViewModel(
     private val userRepository: UserRepository,
-    private val journalRepository: JournalRepository
+    private val journalRepository: JournalRepositoryImpl
 ) :
     ViewModel() {
     val userName: MutableState<String> = mutableStateOf("")
 
     val journalEntries: LiveData<List<JournalEntry>> =
-        journalRepository.journalEntries.asLiveData()
+        journalRepository.journalEntries().asLiveData()
 
     init {
         userName.value = userRepository.getUser()?.name ?: ""

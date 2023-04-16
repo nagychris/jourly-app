@@ -5,11 +5,24 @@ import com.example.jourlyapp.model.journal.entities.JournalEntry
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
-class JournalRepository(private val journalDao: JournalDao) {
-
-    val journalEntries: Flow<List<JournalEntry>> = journalDao.getEntries()
+interface JournalRepository {
+    fun journalEntries(): Flow<List<JournalEntry>>
 
     fun getJournalEntriesBetweenDates(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): Flow<List<JournalEntry>>
+
+    suspend fun createEntry(journalEntry: JournalEntry)
+}
+
+class JournalRepositoryImpl(private val journalDao: JournalDao) :
+    JournalRepository {
+
+    override fun journalEntries(): Flow<List<JournalEntry>> =
+        journalDao.getEntries()
+
+    override fun getJournalEntriesBetweenDates(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): Flow<List<JournalEntry>> {
@@ -19,6 +32,7 @@ class JournalRepository(private val journalDao: JournalDao) {
         )
     }
 
-    suspend fun createEntry(journalEntry: JournalEntry) = journalDao.insertEntry(journalEntry)
+    override suspend fun createEntry(journalEntry: JournalEntry) =
+        journalDao.insertEntry(journalEntry)
 
 }
