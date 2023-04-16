@@ -78,4 +78,13 @@ class JournalRepositoryTest {
 
         coVerify { journalDao.insertEntry(entries[0]) }
     }
+
+    @Test
+    fun deleteEntryByIdCallsDao() = runTest {
+        journalRepository.deleteEntryById(
+            1
+        )
+
+        coVerify { journalDao.deleteEntryById(1) }
+    }
 }
