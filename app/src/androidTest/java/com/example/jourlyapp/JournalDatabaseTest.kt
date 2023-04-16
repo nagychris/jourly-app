@@ -1,5 +1,6 @@
 package com.example.jourlyapp
 
+import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -65,6 +66,7 @@ class JournalDatabaseTest {
         ).build()
         journalDao = database.journalDao()
 
+        // pre-populate with dummy entries
         runTest {
             entries.forEach {
                 journalDao.insertEntry(it)
@@ -93,10 +95,10 @@ class JournalDatabaseTest {
     @Test
     fun getEntriesBetweenDatesReturnsExpectedEntries() = runTest {
         val expected = listOf(
-            JournalEntry(2, LocalDateTime.now(), Mood.Okay),
-            JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
-            JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
             JournalEntry(5, LocalDateTime.now().minusDays(3), Mood.Great),
+            JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
+            JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
+            JournalEntry(2, LocalDateTime.now(), Mood.Okay),
         )
 
         journalDao.getEntriesBetweenDates(
@@ -104,6 +106,7 @@ class JournalDatabaseTest {
             LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         ).test {
             val list = awaitItem()
+            Log.d("TEST", list.toString())
             assert(expected.size == list.size)
             assert(list == expected)
             cancel()
@@ -157,5 +160,14 @@ class JournalDatabaseTest {
 
         assert(questionnaire1.isEmpty())
         assert(questionnaire2.isEmpty())
+    }
+
+    @Test
+    fun getEntryByIdReturnsExpectedEntry() = runTest {
+        val expectedEntry = expectedEntries[0]
+
+        val entry = journalDao.getEntryById(1)
+
+        assert(entry == expectedEntry)
     }
 }
