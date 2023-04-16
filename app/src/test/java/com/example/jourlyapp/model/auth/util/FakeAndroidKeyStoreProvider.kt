@@ -1,4 +1,4 @@
-package com.example.jourlyapp.util
+package com.example.jourlyapp.model.auth.util
 
 import java.security.Provider
 import java.security.Security

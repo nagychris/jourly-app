@@ -1,9 +1,8 @@
-package com.example.jourlyapp
+package com.example.jourlyapp.model.auth
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.example.jourlyapp.model.auth.EncryptedStorageService
-import com.example.jourlyapp.util.FakeAndroidKeyStoreProvider
+import com.example.jourlyapp.model.auth.util.FakeAndroidKeyStoreProvider
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
