@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class UserRepositoryImplTest {
+class UserRepositoryTest {
 
     private val mockStorageService =
         mockk<EncryptedStorageService>(relaxed = true)
