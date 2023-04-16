@@ -2,6 +2,7 @@ package com.example.jourlyapp.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -19,6 +20,7 @@ fun RootNavigationGraph(
     navController: NavHostController,
     startDestination: String,
     paddingValues: PaddingValues,
+    journalEntryListState: LazyListState
 ) {
     NavHost(
         navController,
@@ -40,7 +42,7 @@ fun RootNavigationGraph(
             )
         }
         composable(route = AppRoute.Journal.route) {
-            JournalScreen()
+            JournalScreen(listState = journalEntryListState)
         }
         composable(route = AppRoute.Profile.route) {
             ProfileScreen(
