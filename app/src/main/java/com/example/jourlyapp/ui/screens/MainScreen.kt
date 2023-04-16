@@ -74,17 +74,16 @@ fun MainScreen(
                 onMoodIconClick = suspend {
                     modalSheetState.hide()
                     journalEntryListState.scrollToItem(0)
-                    val result = scaffoldState.snackbarHostState.showSnackbar(
+                    scaffoldState.snackbarHostState.showSnackbar(
                         "Quick Entry added",
                         duration = androidx.compose.material.SnackbarDuration.Short
                     )
-                },
-                onExpandClick = {
-                    coroutineScope.launch {
-                        isSheetFullScreen = !isSheetFullScreen
-                    }
                 }
-            )
+            ) {
+                coroutineScope.launch {
+                    isSheetFullScreen = !isSheetFullScreen
+                }
+            }
         },
         sheetShape = RoundedCornerShape(
             topStart = roundedCornerRadius,

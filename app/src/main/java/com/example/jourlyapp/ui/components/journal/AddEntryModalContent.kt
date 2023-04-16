@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,13 +35,11 @@ import java.time.LocalDateTime
 fun AddEntryModalContent(
     modifier: Modifier,
     coroutineScope: CoroutineScope,
-    onMoodIconClick: suspend () -> Unit,
+    onMoodIconClick: suspend () -> SnackbarResult,
     onExpandClick: () -> Unit
 ) {
     val viewModel: QuickEntryModalViewModel =
         viewModel(factory = QuickEntryModalViewModel.Factory)
-
-    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
