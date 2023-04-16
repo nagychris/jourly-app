@@ -1,7 +1,5 @@
 package com.example.jourlyapp.ui.components.journal
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -77,16 +76,16 @@ fun AddEntryModalContent(
             MoodIcon(
                 mood = Mood.Great, modifier = Modifier
                     .size(32.dp)
+                    .testTag("moodIconButton")
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onDoubleTap = {
                                 coroutineScope.launch {
-                                    onMoodIconClick()
                                     addQuickEntry(
                                         viewModel,
-                                        context,
                                         Mood.Great
                                     )
+                                    onMoodIconClick()
                                 }
                             }
                         )
@@ -99,7 +98,7 @@ fun AddEntryModalContent(
                         onDoubleTap = {
                             coroutineScope.launch {
                                 onMoodIconClick()
-                                addQuickEntry(viewModel, context, Mood.Good)
+                                addQuickEntry(viewModel, Mood.Good)
                             }
                         }
                     )
@@ -112,7 +111,7 @@ fun AddEntryModalContent(
                         onDoubleTap = {
                             coroutineScope.launch {
                                 onMoodIconClick()
-                                addQuickEntry(viewModel, context, Mood.Okay)
+                                addQuickEntry(viewModel, Mood.Okay)
                             }
                         }
                     )
@@ -125,7 +124,7 @@ fun AddEntryModalContent(
                         onDoubleTap = {
                             coroutineScope.launch {
                                 onMoodIconClick()
-                                addQuickEntry(viewModel, context, Mood.Bad)
+                                addQuickEntry(viewModel, Mood.Bad)
                             }
                         }
                     )
@@ -138,7 +137,7 @@ fun AddEntryModalContent(
                         onDoubleTap = {
                             coroutineScope.launch {
                                 onMoodIconClick()
-                                addQuickEntry(viewModel, context, Mood.Awful)
+                                addQuickEntry(viewModel, Mood.Awful)
                             }
                         }
                     )
@@ -150,18 +149,10 @@ fun AddEntryModalContent(
 
 fun addQuickEntry(
     viewModel: QuickEntryModalViewModel,
-    context: Context,
     mood: Mood
 ) {
     viewModel.createNewQuickEntry(
         date = LocalDateTime.now(),
         mood = mood
     )
-    Toast
-        .makeText(
-            context,
-            "Quick entry added!",
-            Toast.LENGTH_SHORT
-        )
-        .show()
 }
