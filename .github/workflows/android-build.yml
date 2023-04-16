@@ -1,4 +1,4 @@
-name: Build
+name: Build & Test
 
 on:
   push:
@@ -12,17 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+      - name: Checkout code
       uses: actions/checkout@v3
-    - name: set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - name: set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    - name: Build with Gradle
-      run: ./gradlew build
+          - name: Grant execute permission for gradlew
+            run: chmod +x gradlew
+
+          - name: Build & Test with Gradle
+            run: ./gradlew build
+
+          - name: Run Android Tests
+            run: ./gradlew connectedAndroidTest
+
