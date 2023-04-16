@@ -84,11 +84,6 @@ fun UnlockScreen(
             ) {
                 Text(text = "Unlock", color = MaterialTheme.colors.onPrimary)
             }
-            if (viewModel.errorMessage.value.isNotEmpty())
-                Text(
-                    viewModel.errorMessage.value,
-                    color = MaterialTheme.colors.error
-                )
         }
 
     }
