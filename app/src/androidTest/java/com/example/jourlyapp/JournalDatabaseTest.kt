@@ -1,6 +1,5 @@
 package com.example.jourlyapp
 
-import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -106,7 +105,6 @@ class JournalDatabaseTest {
             LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         ).test {
             val list = awaitItem()
-            Log.d("TEST", list.toString())
             assert(expected.size == list.size)
             assert(list == expected)
             cancel()
