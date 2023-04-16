@@ -3,7 +3,6 @@ package com.example.jourlyapp.ui.components.journal
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -16,7 +15,6 @@ import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
-import java.time.LocalDateTime
 
 @Composable
 fun AddDetailedEntryModalContent(
@@ -85,7 +83,6 @@ fun AddDetailedEntryModalContent(
                             )
                         )
                     }
-                    viewModel.updateDate(LocalDateTime.now())
                     onClose()
                     addDetailedEntry(viewModel, context, questionAnswerPairs)
                 }) {

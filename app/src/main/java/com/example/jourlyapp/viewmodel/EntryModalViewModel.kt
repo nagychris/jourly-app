@@ -23,9 +23,6 @@ class EntryModalViewModel(private var journalRepository: JournalRepository): Vie
         journalEntry.value.mood = mood
     }
 
-    fun updateDate(date: LocalDateTime) {
-        journalEntry.value.date = date
-    }
     fun createNewQuickEntry(date : LocalDateTime, mood: Mood) = viewModelScope.launch {
         journalRepository.createEntry(JournalEntry(null, date, mood))
     }
@@ -34,7 +31,12 @@ class EntryModalViewModel(private var journalRepository: JournalRepository): Vie
         return journalRepository.getLastEntryId()
     }
 
+    /**
+     * The date is updated since we are inserting the entry when the user clicks on the save button, which
+     * realistically will happen after he wrote his answers for the detailed entry.
+     */
     fun createNewEntry(journalEntry: JournalEntry) = viewModelScope.launch {
+        journalEntry.date = LocalDateTime.now()
         journalRepository.createEntry(journalEntry)
     }
 
