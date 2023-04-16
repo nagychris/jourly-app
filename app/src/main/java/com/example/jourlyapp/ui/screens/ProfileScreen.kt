@@ -18,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.jourlyapp.R
 import com.example.jourlyapp.ui.components.shared.PageHeader
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
 import com.example.jourlyapp.ui.theme.Margins
@@ -43,7 +45,7 @@ fun ProfileScreen(
             ),
     ) {
         PageHeader(
-            title = "Profile",
+            title = stringResource(id = R.string.profile),
             modifier = modifier.padding(bottom = Margins.verticalLarge)
         )
         if (viewModel.userName.value.isNotEmpty()) {
