@@ -13,7 +13,7 @@ import com.example.jourlyapp.model.journal.enums.Mood
 fun MoodIcon(mood: Mood, modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(id = mood.toDrawableId()),
-        contentDescription = "Mood",
+        contentDescription = "$mood Mood",
         modifier = modifier.size(24.dp),
         tint = MaterialTheme.colorScheme.secondary
     )

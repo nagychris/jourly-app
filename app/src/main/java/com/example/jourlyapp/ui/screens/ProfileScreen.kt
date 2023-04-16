@@ -65,7 +65,10 @@ fun ProfileScreen(
                 ) {
                     Text(text = "This is ${viewModel.userName.value}'s Journal.")
                     BaseButton(
-                        onClick = onChangeUserClick,
+                        onClick = {
+                            viewModel.removeUserDetails()
+                            onChangeUserClick()
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.error,
                         )

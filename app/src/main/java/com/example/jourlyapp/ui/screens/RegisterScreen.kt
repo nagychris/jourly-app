@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -53,7 +54,8 @@ fun RegisterScreen(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .padding(bottom = 8.dp)
+                .testTag("userNameField"),
             onValueChange = { viewModel.updateUserName(it) },
             label = { Text(stringResource(R.string.userName)) },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -68,7 +70,8 @@ fun RegisterScreen(
             value = viewModel.userPasscode.value,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .padding(bottom = 8.dp)
+                .testTag("passcodeField"),
             onPasscodeChange = { viewModel.updateUserPasscode(it) }
         )
         BaseButton(
