@@ -13,13 +13,16 @@ import androidx.compose.ui.test.swipeLeft
 fun registerUser(
     composeTestRule: ComposeTestRule,
     userName: String = "User",
-    passcode: String = "Passcode"
+    passcode: String? = "Passcode"
 ) {
     composeTestRule.apply {
         onNode(hasTestTag("userNameField"))
             .performTextInput(userName)
-        onNode(hasTestTag("passcodeField"))
-            .performTextInput(passcode)
+
+        if (passcode != null) {
+            onNode(hasTestTag("passcodeField"))
+                .performTextInput(passcode)
+        }
 
         onNode(hasText("Save")).performClick()
     }
@@ -59,5 +62,13 @@ fun deleteJournalEntry(
             swipeLeft()
         }
         onNode(hasText("Delete")).performClick()
+    }
+}
+
+fun assertJournalScreenIsDisplayed(composeTestRule: ComposeTestRule) {
+    composeTestRule.apply {
+        onNode(hasText("Welcome back to Jourly, User"))
+            .assertIsDisplayed()
+        onNode(hasText("Your Timeline")).assertIsDisplayed()
     }
 }

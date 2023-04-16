@@ -10,6 +10,7 @@ import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.jourlyapp.e2e.util.assertJournalScreenIsDisplayed
 import com.example.jourlyapp.e2e.util.deleteUserDetails
 import com.example.jourlyapp.e2e.util.registerUser
 import com.example.jourlyapp.e2e.util.unlockApp
@@ -17,13 +18,20 @@ import com.example.jourlyapp.ui.screens.MainScreen
 import com.example.jourlyapp.ui.theme.JourlyTheme
 import com.example.jourlyapp.viewmodel.MainViewModel
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runners.MethodSorters
 
 /**
  * NOTE: the test methods need to be executed in the given order, and the last
  * test has to be run after the first to delete the user details.
+ * This is due to the fact that we want to test the unlock feature, which is
+ * only possible when re-opening the app, so we need to have two separate tests
+ * (we need [setup] to be called twice).
+ * To keep the order in the execution, the test names are prefixed with letters.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 internal class RegisterFlowTest {
 
     @get:Rule
@@ -42,17 +50,16 @@ internal class RegisterFlowTest {
     }
 
     @Test
-    fun userIsRedirectedToJournalAfterRegistering() {
+    fun a_userIsRedirectedToJournalAfterRegistering() {
         composeRule.apply {
             registerUser(this)
-            onNode(hasText("Welcome back to Jourly, User"))
-                .assertIsDisplayed()
-            onNode(hasText("Your Timeline")).assertIsDisplayed()
+
+            assertJournalScreenIsDisplayed(this)
         }
     }
 
     @Test
-    fun userCanUnlockAppWithRegisteredCredentials() {
+    fun b_userCanUnlockAppWithRegisteredCredentials() {
         composeRule.apply {
             onNode(hasText("Unlock")).assertIsNotEnabled()
 
@@ -67,16 +74,25 @@ internal class RegisterFlowTest {
 
             unlockApp(this)
 
-            onNode(hasText("Welcome back to Jourly, User"))
-                .assertIsDisplayed()
-            onNode(hasText("Your Timeline")).assertIsDisplayed()
+            assertJournalScreenIsDisplayed(this)
+
+            deleteUserDetails(this)
         }
     }
 
     @Test
-    fun userDetailsCanBeDeleted() {
+    fun c_userIsRedirectedToJournalAfterRegisteringWithoutPasscode() {
         composeRule.apply {
-            unlockApp(this)
+            registerUser(this, passcode = null)
+
+            assertJournalScreenIsDisplayed(this)
+        }
+    }
+
+    @Test
+    fun d_userCanAccessAppDirectlyWithoutPasscodeAndDeleteUserDetails() {
+        composeRule.apply {
+            assertJournalScreenIsDisplayed(this)
 
             deleteUserDetails(this)
 

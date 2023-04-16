@@ -14,6 +14,7 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performTouchInput
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.jourlyapp.e2e.util.assertJournalScreenIsDisplayed
 import com.example.jourlyapp.e2e.util.deleteJournalEntry
 import com.example.jourlyapp.e2e.util.deleteUserDetails
 import com.example.jourlyapp.e2e.util.registerUser
@@ -50,9 +51,9 @@ internal class AddJournalEntryFlowTest {
     @Test
     fun userCanAddQuickJournalEntry() = runTest {
         composeRule.apply {
-            registerUser(this)
+            registerUser(this, passcode = null)
 
-            onNode(hasText("Welcome back to Jourly, User")).assertIsDisplayed()
+            assertJournalScreenIsDisplayed(this)
 
             onNode(hasContentDescription("Add Entry"))
                 .performClick()
