@@ -74,7 +74,7 @@ fun MainScreen(
                         isSheetFullScreen = true
                     }
                 },
-                onShrinkClick = {
+                onCollapseClick = {
                     coroutineScope.launch {
                         isSheetFullScreen = false
                     }
