@@ -16,10 +16,9 @@ import com.example.jourlyapp.ui.theme.Purple80
 fun MoodIcon(mood: Mood, modifier: Modifier = Modifier, highlighted: Boolean = false) {
     Icon(
         painter = painterResource(id = mood.toDrawableId()),
-        contentDescription = "Mood",
-        modifier = modifier
-            .size(24.dp)
+        contentDescription = "$mood Mood",
+        modifier = modifier.size(24.dp)
             .background(if(highlighted) Purple80 else Color.Transparent),
-        tint = MaterialTheme.colorScheme.secondary,
+        tint = MaterialTheme.colorScheme.secondary
     )
 }

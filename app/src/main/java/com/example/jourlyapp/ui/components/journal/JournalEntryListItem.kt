@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.ui.util.DateTimeParser
@@ -30,7 +31,8 @@ fun JournalEntryListItem(
     Card(
         modifier = modifier
             .padding(vertical = 6.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .testTag("journalEntry"),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(corner = CornerSize(16.dp))

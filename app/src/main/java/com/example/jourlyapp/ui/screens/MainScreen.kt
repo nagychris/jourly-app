@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FabPosition
@@ -11,6 +12,7 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,6 +52,9 @@ fun MainScreen(
         skipHalfExpanded = true
     )
 
+    val scaffoldState = rememberScaffoldState()
+    val journalEntryListState = rememberLazyListState()
+
     val roundedCornerRadius = if (isSheetFullScreen) 0.dp else 12.dp
 
     BackHandler(modalSheetState.isVisible) {
@@ -68,6 +73,11 @@ fun MainScreen(
                 coroutineScope = coroutineScope,
                 onMoodIconClick = suspend {
                     modalSheetState.hide()
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        "Quick Entry added",
+                        duration = androidx.compose.material.SnackbarDuration.Short
+                    )
+                    journalEntryListState.scrollToItem(0)
                 },
                 onExpandClick = {
                     coroutineScope.launch {
@@ -94,6 +104,7 @@ fun MainScreen(
         )
     ) {
         Scaffold(
+            scaffoldState = scaffoldState,
             bottomBar = {
                 if (!viewModel.isAuthScreen.value) BottomNavigationBar(
                     navController
@@ -117,6 +128,7 @@ fun MainScreen(
                 navController = navController,
                 paddingValues = paddingValues,
                 startDestination = viewModel.startDestination.value,
+                journalEntryListState = journalEntryListState,
             )
         }
     }

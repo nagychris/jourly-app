@@ -11,7 +11,7 @@ sealed class AppRoute(
 ) {
     object Challenges : AppRoute(
         "achievements",
-        R.string.achieved,
+        R.string.challenges,
         R.drawable.ic_baseline_self_improvement_24
     )
 

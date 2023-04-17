@@ -9,16 +9,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.jourlyapp.JourlyApplication
-import com.example.jourlyapp.model.journal.JournalRepository
+import com.example.jourlyapp.model.journal.JournalRepositoryImpl
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.report.DateRange
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-const val TAG = "ReportViewModel"
-
-class ReportViewModel(val journalRepository: JournalRepository) : ViewModel() {
+class ReportViewModel(val journalRepository: JournalRepositoryImpl) :
+    ViewModel() {
     // end date is always today, because we consider the past x days
     private val endDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
 
@@ -45,6 +44,8 @@ class ReportViewModel(val journalRepository: JournalRepository) : ViewModel() {
     }
 
     companion object {
+        const val TAG = "ReportViewModel"
+
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val journalRepository =

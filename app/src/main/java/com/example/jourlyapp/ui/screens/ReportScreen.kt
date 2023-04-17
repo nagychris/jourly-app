@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.jourlyapp.R
 import com.example.jourlyapp.model.report.DateRange
 import com.example.jourlyapp.ui.components.report.MoodDevelopmentLineChart
 import com.example.jourlyapp.ui.components.report.MoodFrequenciesBarChart
@@ -38,7 +40,7 @@ fun ReportScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         PageHeader(
-            title = "Your Personal Report",
+            title = "Your Personal ${stringResource(id = R.string.report)}",
             modifier = Modifier.padding(bottom = Margins.verticalLarge)
         )
         DropdownMenuField(

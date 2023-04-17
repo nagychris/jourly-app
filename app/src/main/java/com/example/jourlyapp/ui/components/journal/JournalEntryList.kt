@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.ui.theme.Blue80
@@ -49,7 +51,8 @@ import kotlinx.coroutines.launch
 fun JournalEntryList(
     modifier: Modifier = Modifier,
     journalEntries: List<JournalEntry>,
-    viewModel: JournalViewModel
+    viewModel: JournalViewModel,
+    listState: LazyListState
 ) {
     val coroutineScope = rememberCoroutineScope()
     val toastContext = LocalContext.current
@@ -57,7 +60,10 @@ fun JournalEntryList(
     Column(modifier = modifier) {
         Text("Your Timeline", style = MaterialTheme.typography.labelMedium)
         Spacer(modifier = Modifier.height(Margins.vertical))
-        LazyColumn {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.testTag("journalEntryList")
+        ) {
             items(
                 items = journalEntries,
                 key = { it.id ?: 0 },

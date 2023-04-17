@@ -3,7 +3,7 @@
     <string name="journal">Journal</string>
     <string name="profile">Profile</string>
     <string name="report">Report</string>
-    <string name="achieved" translatable="false">Achieved</string>
+    <string name="challenges" translatable="false">Challenges</string>
     <string name="welcomeText">Welcome to Jourly</string>
     <string name="userNameLabel">How should we call you?</string>
     <string name="userName">Your Nickname</string>

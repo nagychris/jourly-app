@@ -65,6 +65,7 @@ class JournalDatabaseTest {
         ).build()
         journalDao = database.journalDao()
 
+        // pre-populate with dummy entries
         runTest {
             entries.forEach {
                 journalDao.insertEntry(it)
@@ -93,10 +94,10 @@ class JournalDatabaseTest {
     @Test
     fun getEntriesBetweenDatesReturnsExpectedEntries() = runTest {
         val expected = listOf(
-            JournalEntry(2, LocalDateTime.now(), Mood.Okay),
-            JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
-            JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
             JournalEntry(5, LocalDateTime.now().minusDays(3), Mood.Great),
+            JournalEntry(4, LocalDateTime.now().minusDays(2), Mood.Great),
+            JournalEntry(3, LocalDateTime.now().minusDays(1), Mood.Great),
+            JournalEntry(2, LocalDateTime.now(), Mood.Okay),
         )
 
         journalDao.getEntriesBetweenDates(
@@ -157,5 +158,14 @@ class JournalDatabaseTest {
 
         assert(questionnaire1.isEmpty())
         assert(questionnaire2.isEmpty())
+    }
+
+    @Test
+    fun getEntryByIdReturnsExpectedEntry() = runTest {
+        val expectedEntry = expectedEntries[0]
+
+        val entry = journalDao.getEntryById(1)
+
+        assert(entry == expectedEntry)
     }
 }

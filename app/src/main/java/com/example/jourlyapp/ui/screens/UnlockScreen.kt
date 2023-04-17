@@ -1,5 +1,6 @@
 package com.example.jourlyapp.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jourlyapp.ui.components.shared.PageHeader
@@ -46,7 +48,7 @@ fun UnlockScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
                 .padding(bottom = paddingValues.calculateBottomPadding()),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             PageHeader(title = "Unlock Jourly")
             Text(
@@ -60,7 +62,9 @@ fun UnlockScreen(
                 onPasscodeChange = {
                     viewModel.updatePasscode(it)
                 },
-                modifier = modifier.padding(bottom = 8.dp)
+                modifier = modifier
+                    .padding(bottom = 8.dp)
+                    .testTag("passcodeField")
             )
             BaseButton(
                 modifier = Modifier
@@ -84,11 +88,6 @@ fun UnlockScreen(
             ) {
                 Text(text = "Unlock", color = MaterialTheme.colors.onPrimary)
             }
-            if (viewModel.errorMessage.value.isNotEmpty())
-                Text(
-                    viewModel.errorMessage.value,
-                    color = MaterialTheme.colors.error
-                )
         }
 
     }

@@ -2,6 +2,7 @@ package com.example.jourlyapp.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ fun JournalScreen(
     modifier: Modifier = Modifier,
     viewModel: JournalViewModel =
         viewModel(factory = JournalViewModel.Factory),
+    listState: LazyListState
 ) {
     val journalEntries =
         viewModel.journalEntries.observeAsState(initial = emptyList())
@@ -34,7 +36,8 @@ fun JournalScreen(
         )
         JournalEntryList(
             journalEntries = journalEntries.value,
-            viewModel = viewModel
+            viewModel = viewModel,
+            listState = listState,
         )
     }
 }

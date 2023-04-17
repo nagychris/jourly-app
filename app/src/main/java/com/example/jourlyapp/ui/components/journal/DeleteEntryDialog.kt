@@ -89,7 +89,7 @@ fun DeleteEntryDialog(
                                 containerColor = MaterialTheme.colorScheme.error
                             )
                         ) {
-                            Text("Discard")
+                            Text("Delete")
                         }
                     }
                 }

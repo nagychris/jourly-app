@@ -1,9 +1,6 @@
-package com.example.jourlyapp
+package com.example.jourlyapp.model.auth
 
 import android.util.Log
-import com.example.jourlyapp.model.auth.EncryptedStorageService
-import com.example.jourlyapp.model.auth.UserRepository
-import com.example.jourlyapp.model.auth.UserRepositoryImpl
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -16,7 +13,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class UserRepositoryImplTest {
+class UserRepositoryTest {
 
     private val mockStorageService =
         mockk<EncryptedStorageService>(relaxed = true)

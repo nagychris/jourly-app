@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -75,7 +76,9 @@ fun BottomNavigationBar(navController: NavController) {
                         Text(
                             text = stringResource(id = navItem.titleResourceId),
                             color = Color.White,
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 9.sp
+                            )
                         )
                     },
                     selectedContentColor = MaterialTheme.colorScheme.background,
