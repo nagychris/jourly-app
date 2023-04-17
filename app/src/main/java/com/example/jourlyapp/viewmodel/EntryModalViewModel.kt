@@ -17,17 +17,17 @@ import java.time.LocalDateTime
 
 class EntryModalViewModel(private var journalRepository: JournalRepository): ViewModel() {
 
-    val journalEntry = mutableStateOf(JournalEntry(null, date = LocalDateTime.now(), Mood.None))
+    val mood = mutableStateOf(Mood.None)
 
     var answers = mutableStateListOf("", "", "")
 
     var questionAnswerPairs = ArrayList<QuestionAnswerPair>()
-    fun updateMood(mood: Mood) {
-        journalEntry.value.mood = mood
+    fun updateMood(newMood: Mood) {
+        mood.value = newMood
     }
 
     fun initQuestionAnswerPairs(question: String, index: Int) {
-        questionAnswerPairs.add(QuestionAnswerPair(null, journalEntry.value.id?:0, question, answers[index]))
+        questionAnswerPairs.add(QuestionAnswerPair(null, 0, question, answers[index]))
     }
 
     fun updateAnswer(answer : String, index : Int) {
@@ -43,8 +43,7 @@ class EntryModalViewModel(private var journalRepository: JournalRepository): Vie
      * realistically will happen after he wrote his answers for the detailed entry.
      */
     fun createNewDetailedEntry() = viewModelScope.launch {
-        journalEntry.value.date = LocalDateTime.now()
-        journalRepository.createEntry(journalEntry.value)
+        journalRepository.createEntry(JournalEntry(null, LocalDateTime.now(), mood.value))
 
         val entryId = journalRepository.getLastEntryId()
         questionAnswerPairs.forEach { qap ->
@@ -52,6 +51,8 @@ class EntryModalViewModel(private var journalRepository: JournalRepository): Vie
                 QuestionAnswerPair(null, entryId, qap.question, qap.answer)
             )
         }
+        //Once the detailed entry is insrted we want to bring the mood back to the None one to wait for a new possible entry
+        updateMood(newMood = Mood.None)
     }
 
     companion object {
