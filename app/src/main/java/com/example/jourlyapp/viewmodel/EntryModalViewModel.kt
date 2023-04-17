@@ -1,6 +1,6 @@
 package com.example.jourlyapp.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -19,31 +19,41 @@ class EntryModalViewModel(private var journalRepository: JournalRepository): Vie
 
     val journalEntry = mutableStateOf(JournalEntry(null, date = LocalDateTime.now(), Mood.None))
 
+    var answers = mutableStateListOf("", "", "")
+
+    var questionAnswerPairs = ArrayList<QuestionAnswerPair>()
     fun updateMood(mood: Mood) {
         journalEntry.value.mood = mood
+    }
+
+    fun initQuestionAnswerPairs(question: String, index: Int) {
+        questionAnswerPairs.add(QuestionAnswerPair(null, journalEntry.value.id?:0, question, answers[index]))
+    }
+
+    fun updateAnswer(answer : String, index : Int) {
+        answers[index] = answer
     }
 
     fun createNewQuickEntry(date : LocalDateTime, mood: Mood) = viewModelScope.launch {
         journalRepository.createEntry(JournalEntry(null, date, mood))
     }
 
-    fun getLastEntryId() : Int? {
-        return journalRepository.getLastEntryId()
-    }
-
     /**
      * The date is updated since we are inserting the entry when the user clicks on the save button, which
      * realistically will happen after he wrote his answers for the detailed entry.
      */
-    fun createNewEntry(journalEntry: JournalEntry) = viewModelScope.launch {
-        journalEntry.date = LocalDateTime.now()
-        journalRepository.createEntry(journalEntry)
+    fun createNewDetailedEntry() = viewModelScope.launch {
+        journalEntry.value.date = LocalDateTime.now()
+        journalRepository.createEntry(journalEntry.value)
+
+        val entryId = journalRepository.getLastEntryId()
+        questionAnswerPairs.forEach { qap ->
+            journalRepository.createQuestionAnswerPair(
+                QuestionAnswerPair(null, entryId, qap.question, qap.answer)
+            )
+        }
     }
 
-    fun createNewQuestionAnswerPair(qa: QuestionAnswerPair) = viewModelScope.launch {
-        val lastEntryId = getLastEntryId()?:0
-        journalRepository.createQuestionAnswerPair(QuestionAnswerPair(null, lastEntryId, qa.question, qa.answer))
-    }
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
