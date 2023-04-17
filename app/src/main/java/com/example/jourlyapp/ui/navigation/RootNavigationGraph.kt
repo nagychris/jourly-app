@@ -9,11 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.jourlyapp.ui.screens.ChallengesScreen
-import com.example.jourlyapp.ui.screens.JournalScreen
 import com.example.jourlyapp.ui.screens.ProfileScreen
 import com.example.jourlyapp.ui.screens.RegisterScreen
 import com.example.jourlyapp.ui.screens.ReportScreen
 import com.example.jourlyapp.ui.screens.UnlockScreen
+import com.example.jourlyapp.ui.screens.journal.JournalScreen
 
 @Composable
 fun RootNavigationGraph(

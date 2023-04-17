@@ -1,4 +1,4 @@
-package com.example.jourlyapp.ui.screens
+package com.example.jourlyapp.ui.screens.journal
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
