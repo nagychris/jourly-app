@@ -62,7 +62,7 @@ interface JournalDao {
     suspend fun deleteAllQuestionAnswerPairs()
 
     @Query(
-        "SELECT * FROM journal_entry ORDER BY DATETIME(date) LIMIT 1"
+        "SELECT journal_entry.id FROM journal_entry ORDER BY id DESC LIMIT 1"
     )
-    fun getLastEntry() : JournalEntry
+    fun getLastEntryId() : Int
 }

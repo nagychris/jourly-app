@@ -26,6 +26,6 @@ class JournalRepository(private val journalDao: JournalDao) {
         journalDao.insertQuestionAnswerPair(questionAnswerPair)
     suspend fun deleteEntryById (entryId: Int) = journalDao.deleteEntryById(journalEntryId = entryId)
 
-    fun getLastEntryId () : Int? = journalDao.getLastEntry().id
+    fun getLastEntryId () : Int = journalDao.getLastEntryId()
 
 }
