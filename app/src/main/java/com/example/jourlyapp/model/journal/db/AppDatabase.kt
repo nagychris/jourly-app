@@ -69,13 +69,13 @@ abstract class AppDatabase : RoomDatabase() {
         private val scope: CoroutineScope
     ) : Callback() {
 
-        // NOTE: this will remove and re-add dummy data each time the app is started
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            INSTANCE?.let { database ->
-                fillDatabaseWithDummyData(database)
-            }
-        }
+//        // NOTE: uncomment to remove and re-add dummy data each time the app is started
+//        override fun onOpen(db: SupportSQLiteDatabase) {
+//            super.onOpen(db)
+//            INSTANCE?.let { database ->
+//                fillDatabaseWithDummyData(database)
+//            }
+//        }
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)

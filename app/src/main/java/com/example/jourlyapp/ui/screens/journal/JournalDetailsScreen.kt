@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import androidx.navigation.NavController
 import com.example.jourlyapp.ui.components.journal.DetailedEntryHeader
 import com.example.jourlyapp.ui.components.journal.MoodIcon
 import com.example.jourlyapp.ui.components.journal.MoodSelect
+import com.example.jourlyapp.ui.components.shared.inputs.BaseTextField
 import com.example.jourlyapp.ui.navigation.AppRoute
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.journal.JournalDetailsViewModel
@@ -90,7 +90,7 @@ fun JournalDetailsScreen(navController: NavController) {
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
-                            TextField(
+                            BaseTextField(
                                 enabled = editable,
                                 value = pair.answer,
                                 onValueChange = { newAnswer ->
@@ -99,7 +99,7 @@ fun JournalDetailsScreen(navController: NavController) {
                                 textStyle = MaterialTheme.typography.bodySmall,
                                 singleLine = false,
                                 modifier = Modifier.fillMaxWidth(),
-                                placeholder = { Text(text = if (editable) "Type your answer..." else "No answer yet.") }
+                                placeholder = { Text(text = if (editable) "Type your answer..." else "No answer yet...") }
                             )
                         }
                     }

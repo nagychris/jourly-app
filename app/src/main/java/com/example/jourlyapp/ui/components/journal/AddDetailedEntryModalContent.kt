@@ -11,11 +11,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
+import com.example.jourlyapp.ui.components.shared.inputs.BaseTextField
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
 
@@ -36,7 +36,7 @@ fun AddDetailedEntryModalContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
-                TextField(
+                BaseTextField(
                     value = viewModel.answers[index],
                     onValueChange = { newAnswer ->
                         viewModel.updateAnswer(index, newAnswer)
