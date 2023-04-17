@@ -1,36 +1,43 @@
 package com.example.jourlyapp.ui.components.journal
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.enums.Mood
-import com.example.jourlyapp.viewmodel.EntryModalViewModel
 
 @Composable
 fun MoodSelect(
-    onDoubleTap: (mood: Mood) -> Unit,
-    onTap: (mood: Mood) -> Unit,
-    viewModel: EntryModalViewModel,
+    selectedMood: Mood,
+    onDoubleTap: ((mood: Mood) -> Unit) = {},
+    onTap: (mood: Mood) -> Unit = {},
 ) {
-    Mood.values().asList().subList(1, 6).forEach { mood ->
-        MoodIcon(
-            mood = mood,
-            modifier = Modifier
-                .size(32.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            onDoubleTap(mood)
-                        },
-                        onTap = {
-                            onTap(mood)
-                        }
-                    )
-                },
-            highlighted = viewModel.mood.value == mood
-        )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Mood.values().asList().subList(1, 6).forEach { mood ->
+            MoodIcon(
+                mood = mood,
+                modifier = Modifier
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onDoubleTap = {
+                                onDoubleTap(mood)
+                            },
+                            onTap = {
+                                onTap(mood)
+                            }
+                        )
+                    },
+                highlighted = selectedMood == mood
+            )
+        }
     }
 }

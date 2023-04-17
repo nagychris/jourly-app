@@ -24,7 +24,7 @@ interface JournalDao {
     fun getEntries(): Flow<List<JournalEntry>>
 
     @Query("SELECT * FROM journal_entry WHERE id = :journalEntryId")
-    fun getEntryById(journalEntryId: Int): JournalEntry
+    fun getEntryById(journalEntryId: Int): JournalEntry?
 
     /**
      * Retrieves all journal entries between the two provided dates as strings.

@@ -41,8 +41,8 @@ fun JournalEntryListItem(
             modifier = Modifier.padding(16.dp)
         ) {
             MoodIcon(
+                modifier = modifier.align(Alignment.CenterVertically),
                 mood = journalEntry.mood,
-                modifier.align(Alignment.CenterVertically)
             )
             Spacer(modifier.width(16.dp))
             Column(

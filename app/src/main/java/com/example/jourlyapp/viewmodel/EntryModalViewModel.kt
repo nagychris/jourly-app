@@ -27,7 +27,7 @@ class EntryModalViewModel(private var journalRepository: JournalRepository) :
 
     val questions = RandomQuestionGenerator.randomQuestions()
 
-    var answers = mutableListOf("", "", "")
+    var answers = mutableStateListOf("", "", "")
 
     fun updateMood(newMood: Mood) {
         mood.value = newMood

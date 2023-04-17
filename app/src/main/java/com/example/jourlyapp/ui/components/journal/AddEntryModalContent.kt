@@ -2,8 +2,8 @@ package com.example.jourlyapp.ui.components.journal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -80,32 +80,28 @@ fun AddEntryModalContent(
             text = stringResource(R.string.quickEntryQuestion),
             style = MaterialTheme.typography.bodyLarge
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = Margins.vertical),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            MoodSelect(
-                onDoubleTap = {
-                    coroutineScope.launch {
-                        onMoodIconDoubleTap()
-                        viewModel.createNewQuickEntry(
-                            date = LocalDateTime.now(),
-                            mood = it
-                        )
-                    }
-                },
-                onTap = {
-                    coroutineScope.launch {
-                        onMoodIconSingleTap()
-                        viewModel.updateMood(it)
-                    }
-                },
-                viewModel = viewModel
-            )
-        }
+
+        MoodSelect(
+            onDoubleTap = {
+                coroutineScope.launch {
+                    onMoodIconDoubleTap()
+                    viewModel.createNewQuickEntry(
+                        date = LocalDateTime.now(),
+                        mood = it
+                    )
+                }
+            },
+            onTap = {
+                coroutineScope.launch {
+                    onMoodIconSingleTap()
+                    viewModel.updateMood(it)
+                }
+            },
+            selectedMood = viewModel.mood.value
+        )
+
+        if (!isFullScreen)
+            Spacer(modifier = Modifier.height(Margins.verticalLarge))
 
         if (isFullScreen) {
             AddDetailedEntryModalContent(

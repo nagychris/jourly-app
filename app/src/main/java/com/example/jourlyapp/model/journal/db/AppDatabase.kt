@@ -28,7 +28,7 @@ import kotlin.random.Random
         JournalEntry::class,
         QuestionAnswerPair::class
     ],
-    version = 2,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

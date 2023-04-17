@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.jourlyapp.ui.components.journal.JournalEntryList
 import com.example.jourlyapp.ui.components.shared.PageHeader
 import com.example.jourlyapp.ui.theme.Margins
@@ -17,7 +18,8 @@ fun JournalScreen(
     modifier: Modifier = Modifier,
     viewModel: JournalViewModel =
         viewModel(factory = JournalViewModel.Factory),
-    listState: LazyListState
+    listState: LazyListState,
+    navController: NavController,
 ) {
     val journalEntries =
         viewModel.journalEntries.observeAsState(initial = emptyList())
@@ -38,6 +40,7 @@ fun JournalScreen(
             journalEntries = journalEntries.value,
             viewModel = viewModel,
             listState = listState,
+            navController = navController
         )
     }
 }

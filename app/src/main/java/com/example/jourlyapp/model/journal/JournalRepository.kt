@@ -9,6 +9,8 @@ import java.time.LocalDateTime
 interface JournalRepository {
     fun journalEntries(): Flow<List<JournalEntry>>
 
+    fun getJournalEntryById(id: Int): JournalEntry?
+
     fun getJournalEntriesBetweenDates(
         startDate: LocalDateTime,
         endDate: LocalDateTime
@@ -20,7 +22,9 @@ interface JournalRepository {
 
     suspend fun createQuestionAnswerPair(questionAnswerPair: QuestionAnswerPair)
 
-    fun getLastEntryId () : Int
+    fun getLastEntryId(): Int
+
+    fun getQuestionAnswerPairsByEntryId(entryId: Int): List<QuestionAnswerPair>
 }
 
 class JournalRepositoryImpl(private val journalDao: JournalDao) :
@@ -49,4 +53,10 @@ class JournalRepositoryImpl(private val journalDao: JournalDao) :
         journalDao.insertQuestionAnswerPair(questionAnswerPair)
 
     override fun getLastEntryId(): Int = journalDao.getLastEntryId()
+
+    override fun getJournalEntryById(id: Int): JournalEntry? =
+        journalDao.getEntryById(id)
+
+    override fun getQuestionAnswerPairsByEntryId(entryId: Int): List<QuestionAnswerPair> =
+        journalDao.getQuestionnaireByEntryId(entryId)
 }

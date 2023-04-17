@@ -1,7 +1,6 @@
 package com.example.jourlyapp.ui.components.journal
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,55 +25,53 @@ fun AddDetailedEntryModalContent(
     onSave: () -> Unit,
     viewModel: EntryModalViewModel
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
-        ) {
-            viewModel.questions.forEachIndexed { index, question ->
-                Column {
-                    Text(
-                        text = question,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
-                    TextField(
-                        value = viewModel.answers[index],
-                        onValueChange = { newAnswer ->
-                            viewModel.updateAnswer(index, newAnswer)
-                        },
-                        textStyle = MaterialTheme.typography.bodySmall,
-                        singleLine = false,
-                        modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text(text = "Type your answer...") }
-                    )
-                }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
+    ) {
+        viewModel.questions.forEachIndexed { index, question ->
+            Column {
+                Text(
+                    text = question,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
+                TextField(
+                    value = viewModel.answers[index],
+                    onValueChange = { newAnswer ->
+                        viewModel.updateAnswer(index, newAnswer)
+                    },
+                    textStyle = MaterialTheme.typography.bodySmall,
+                    singleLine = false,
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text(text = "Type your answer...") }
+                )
             }
+        }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            OutlinedButton(
+                onClick = {
+                    viewModel.reset()
+                    onDiscard()
+                },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onBackground
+                )
             ) {
-                OutlinedButton(
-                    onClick = {
-                        viewModel.reset()
-                        onDiscard()
-                    },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onBackground
-                    )
-                ) {
-                    Text(text = "Discard")
-                }
-                BaseButton(
-                    onClick = {
-                        viewModel.createNewDetailedEntry()
-                        onSave()
-                    },
-                    enabled = viewModel.mood.value !== Mood.None,
-                ) {
-                    Text(text = "Save")
-                }
+                Text(text = "Discard")
+            }
+            BaseButton(
+                onClick = {
+                    viewModel.createNewDetailedEntry()
+                    onSave()
+                },
+                enabled = viewModel.mood.value !== Mood.None,
+            ) {
+                Text(text = "Save")
             }
         }
     }

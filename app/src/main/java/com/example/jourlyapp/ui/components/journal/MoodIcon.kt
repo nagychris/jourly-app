@@ -14,12 +14,16 @@ import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.theme.Purple60
 
 @Composable
-fun MoodIcon(mood: Mood, modifier: Modifier = Modifier, highlighted: Boolean = false) {
+fun MoodIcon(
+    modifier: Modifier = Modifier,
+    mood: Mood,
+    highlighted: Boolean = false
+) {
     Icon(
         painter = painterResource(id = mood.toDrawableId()),
         contentDescription = "$mood Mood",
         modifier = modifier
-            .size(24.dp)
+            .size(32.dp)
             .background(
                 if (highlighted) Purple60 else Color.Transparent,
                 shape = RoundedCornerShape(6.dp)
