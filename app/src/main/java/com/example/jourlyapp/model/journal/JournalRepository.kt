@@ -48,5 +48,5 @@ class JournalRepositoryImpl(private val journalDao: JournalDao) :
     override suspend fun createQuestionAnswerPair(questionAnswerPair: QuestionAnswerPair) =
         journalDao.insertQuestionAnswerPair(questionAnswerPair)
 
-    override fun getLastEntryId () : Int = journalDao.getLastEntryId()
+    override fun getLastEntryId(): Int = journalDao.getLastEntryId()
 }

@@ -8,38 +8,29 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
-fun MoodIconsRow (
-    coroutineScope: CoroutineScope,
-    onMoodIconClick: suspend () -> Unit,
-    onExpandClick: () -> Unit,
+fun MoodSelect(
+    onDoubleTap: (mood: Mood) -> Unit,
+    onTap: (mood: Mood) -> Unit,
     viewModel: EntryModalViewModel,
 ) {
-    val moodsNumbers = (5 downTo 1).toList()
-
-    moodsNumbers.forEach { num ->
+    Mood.values().asList().subList(1, 6).forEach { mood ->
         MoodIcon(
-            mood = Mood.values()[num],
+            mood = mood,
             modifier = Modifier
                 .size(32.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
-                            coroutineScope.launch {
-                                onMoodIconClick()
-                                addQuickEntry(viewModel, Mood.values()[num])
-                            }
+                            onDoubleTap(mood)
                         },
                         onTap = {
-                            viewModel.updateMood(newMood = Mood.values()[num])
-                            onExpandClick()
+                            onTap(mood)
                         }
                     )
                 },
-            highlighted = viewModel.mood.value == Mood.values()[num]
+            highlighted = viewModel.mood.value == mood
         )
     }
 }

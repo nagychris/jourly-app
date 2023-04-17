@@ -28,7 +28,7 @@ import kotlin.random.Random
         JournalEntry::class,
         QuestionAnswerPair::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -55,6 +55,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     DB_NAME
                 )
+                    .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(AppDatabaseCallback(scope))
                     .build()
@@ -64,11 +65,17 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    // used to pre-populate database with dummy entries
-    // TODO: remove when actual data is used!
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
     ) : Callback() {
+
+        // NOTE: this will remove and re-add dummy data each time the app is started
+        override fun onOpen(db: SupportSQLiteDatabase) {
+            super.onOpen(db)
+            INSTANCE?.let { database ->
+                fillDatabaseWithDummyData(database)
+            }
+        }
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -99,7 +106,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun getDummyEntries(): List<JournalEntry> {
             val list = mutableListOf<JournalEntry>()
-            repeat(100) {
+            repeat(30) {
                 list.add(
                     JournalEntry(
                         it,
@@ -113,12 +120,12 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun getDummyQuestionAnswerPairs(journalEntriesCount: Int): List<QuestionAnswerPair> {
             val list = mutableListOf<QuestionAnswerPair>()
-            repeat(200) {
+            repeat(60) {
                 val qaPair = QuestionAnswerPair(
                     null,
                     Random.nextInt(0, journalEntriesCount),
                     JournalQuestion.values()[Random.nextInt(JournalQuestion.values().size)].toString(),
-                    null
+                    ""
                 )
                 list.add(qaPair)
             }
