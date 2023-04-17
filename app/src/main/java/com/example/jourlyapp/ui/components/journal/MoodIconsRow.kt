@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
@@ -21,19 +20,17 @@ fun MoodIconsRow (
 ) {
     val moodsNumbers = (5 downTo 1).toList()
 
-    val context = LocalContext.current
-
     moodsNumbers.forEach { num ->
         MoodIcon(
             mood = Mood.values()[num],
             modifier = Modifier
                 .size(32.dp)
                 .pointerInput(Unit) {
-                    detectTapGestures (
+                    detectTapGestures(
                         onDoubleTap = {
                             coroutineScope.launch {
                                 onMoodIconClick()
-                                addQuickEntry(viewModel, context, Mood.values()[num])
+                                addQuickEntry(viewModel, Mood.values()[num])
                             }
                         },
                         onTap = {
