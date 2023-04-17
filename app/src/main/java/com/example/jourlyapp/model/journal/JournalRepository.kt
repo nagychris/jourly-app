@@ -2,6 +2,7 @@ package com.example.jourlyapp.model.journal
 
 import com.example.jourlyapp.model.journal.dao.JournalDao
 import com.example.jourlyapp.model.journal.entities.JournalEntry
+import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
@@ -16,6 +17,10 @@ interface JournalRepository {
     suspend fun createEntry(journalEntry: JournalEntry)
 
     suspend fun deleteEntryById(entryId: Int)
+
+    suspend fun createQuestionAnswerPair(questionAnswerPair: QuestionAnswerPair)
+
+    fun getLastEntryId () : Int
 }
 
 class JournalRepositoryImpl(private val journalDao: JournalDao) :
@@ -38,5 +43,10 @@ class JournalRepositoryImpl(private val journalDao: JournalDao) :
         journalDao.insertEntry(journalEntry)
 
     override suspend fun deleteEntryById(entryId: Int) =
-        journalDao.deleteEntryById(journalEntryId = entryId)
+        journalDao.deleteEntryById(entryId)
+
+    override suspend fun createQuestionAnswerPair(questionAnswerPair: QuestionAnswerPair) =
+        journalDao.insertQuestionAnswerPair(questionAnswerPair)
+
+    override fun getLastEntryId () : Int = journalDao.getLastEntryId()
 }

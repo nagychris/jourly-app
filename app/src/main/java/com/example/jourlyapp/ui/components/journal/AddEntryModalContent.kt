@@ -1,5 +1,9 @@
 package com.example.jourlyapp.ui.components.journal
 
+import android.content.Context
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -25,9 +30,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jourlyapp.R
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.theme.Margins
-import com.example.jourlyapp.viewmodel.QuickEntryModalViewModel
+import com.example.jourlyapp.viewmodel.EntryModalViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 @Composable
@@ -35,11 +39,14 @@ import java.time.LocalDateTime
 fun AddEntryModalContent(
     modifier: Modifier,
     coroutineScope: CoroutineScope,
-    onMoodIconClick: suspend () -> SnackbarResult,
-    onExpandClick: () -> Unit
+    onMoodIconClick: suspend () -> Unit,
+    onExpandClick: () -> Unit,
+    onCollapseClick: () -> Unit,
+    isFullScreen: Boolean,
+    onDetailedClose: () -> Unit
 ) {
-    val viewModel: QuickEntryModalViewModel =
-        viewModel(factory = QuickEntryModalViewModel.Factory)
+    val viewModel: EntryModalViewModel =
+        viewModel(factory = EntryModalViewModel.Factory)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,13 +58,31 @@ fun AddEntryModalContent(
         verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
     ) {
         // This IconButton could be removed to use only the ModalBottomSheet already present draggable functionality
-        IconButton(onClick = onExpandClick) {
-            Icon(
-                painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24),
-                contentDescription = "Expand for more detailed entry",
-                modifier = Modifier
-                    .size(24.dp)
-            )
+        if (!isFullScreen) {
+            IconButton(
+                onClick = onExpandClick
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24),
+                    contentDescription = "Expand for more detailed entry",
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+            }
+        } else {
+            IconButton(
+                onClick = {
+                    viewModel.updateMood(Mood.None)
+                    onCollapseClick()
+                }
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
+                    contentDescription = "Collapse for quick entry",
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+            }
         }
 
         Text(
@@ -67,86 +92,29 @@ fun AddEntryModalContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = Margins.vertical),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MoodIcon(
-                mood = Mood.Great, modifier = Modifier
-                    .size(32.dp)
-                    .testTag("moodIconButton")
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            onDoubleTap = {
-                                coroutineScope.launch {
-                                    addQuickEntry(
-                                        viewModel,
-                                        Mood.Great
-                                    )
-                                    onMoodIconClick()
-                                }
-                            }
-                        )
-                    }
+            MoodIconsRow(
+                coroutineScope = coroutineScope,
+                onMoodIconClick = onMoodIconClick,
+                onExpandClick = onExpandClick,
+                viewModel = viewModel
             )
-            MoodIcon(mood = Mood.Good, modifier = Modifier
-                .size(32.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            coroutineScope.launch {
-                                onMoodIconClick()
-                                addQuickEntry(viewModel, Mood.Good)
-                            }
-                        }
-                    )
-                }
-            )
-            MoodIcon(mood = Mood.Okay, modifier = Modifier
-                .size(32.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            coroutineScope.launch {
-                                onMoodIconClick()
-                                addQuickEntry(viewModel, Mood.Okay)
-                            }
-                        }
-                    )
-                }
-            )
-            MoodIcon(mood = Mood.Bad, modifier = Modifier
-                .size(32.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            coroutineScope.launch {
-                                onMoodIconClick()
-                                addQuickEntry(viewModel, Mood.Bad)
-                            }
-                        }
-                    )
-                }
-            )
-            MoodIcon(mood = Mood.Awful, modifier = Modifier
-                .size(32.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            coroutineScope.launch {
-                                onMoodIconClick()
-                                addQuickEntry(viewModel, Mood.Awful)
-                            }
-                        }
-                    )
-                }
+        }
+
+        if (isFullScreen) {
+            AddDetailedEntryModalContent(
+                onClose = onDetailedClose,
+                viewModel = viewModel
             )
         }
     }
 }
 
 fun addQuickEntry(
-    viewModel: QuickEntryModalViewModel,
+    viewModel: EntryModalViewModel,
     mood: Mood
 ) {
     viewModel.createNewQuickEntry(

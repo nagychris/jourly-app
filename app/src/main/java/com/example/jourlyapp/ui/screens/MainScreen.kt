@@ -73,17 +73,30 @@ fun MainScreen(
                 coroutineScope = coroutineScope,
                 onMoodIconClick = suspend {
                     modalSheetState.hide()
-                    journalEntryListState.scrollToItem(0)
                     scaffoldState.snackbarHostState.showSnackbar(
                         "Quick Entry added",
                         duration = androidx.compose.material.SnackbarDuration.Short
                     )
+                    journalEntryListState.scrollToItem(0)
+                },
+                onExpandClick = {
+                    coroutineScope.launch {
+                        isSheetFullScreen = true
+                    }
+                },
+                onCollapseClick = {
+                    coroutineScope.launch {
+                        isSheetFullScreen = false
+                    }
+                },
+                isFullScreen = isSheetFullScreen,
+                onDetailedClose = {
+                    coroutineScope.launch {
+                        modalSheetState.hide()
+                        isSheetFullScreen = false
+                    }
                 }
-            ) {
-                coroutineScope.launch {
-                    isSheetFullScreen = !isSheetFullScreen
-                }
-            }
+            )
         },
         sheetShape = RoundedCornerShape(
             topStart = roundedCornerRadius,
