@@ -71,7 +71,19 @@ fun MainScreen(
                 },
                 onExpandClick = {
                     coroutineScope.launch {
-                        isSheetFullScreen = !isSheetFullScreen
+                        isSheetFullScreen = true
+                    }
+                },
+                onCollapseClick = {
+                    coroutineScope.launch {
+                        isSheetFullScreen = false
+                    }
+                },
+                isFullScreen = isSheetFullScreen,
+                onDetailedClose = {
+                    coroutineScope.launch {
+                        modalSheetState.hide()
+                        isSheetFullScreen = false
                     }
                 }
             )
