@@ -23,7 +23,6 @@ import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @Composable
 @ExperimentalMaterial3Api
@@ -86,7 +85,6 @@ fun AddEntryModalContent(
                 coroutineScope.launch {
                     onMoodIconDoubleTap()
                     viewModel.createNewQuickEntry(
-                        date = LocalDateTime.now(),
                         mood = it
                     )
                 }

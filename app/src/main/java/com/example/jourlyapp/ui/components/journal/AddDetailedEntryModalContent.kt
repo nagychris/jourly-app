@@ -12,12 +12,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.example.jourlyapp.model.journal.enums.Mood
 import com.example.jourlyapp.ui.components.shared.buttons.BaseButton
 import com.example.jourlyapp.ui.components.shared.inputs.BaseTextField
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.EntryModalViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddDetailedEntryModalContent(
@@ -25,6 +27,8 @@ fun AddDetailedEntryModalContent(
     onSave: () -> Unit,
     viewModel: EntryModalViewModel
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
@@ -66,8 +70,10 @@ fun AddDetailedEntryModalContent(
             }
             BaseButton(
                 onClick = {
-                    viewModel.createNewDetailedEntry()
-                    onSave()
+                    coroutineScope.launch {
+                        viewModel.createNewDetailedEntry()
+                        onSave()
+                    }
                 },
                 enabled = viewModel.mood.value !== Mood.None,
             ) {
