@@ -45,7 +45,7 @@ fun AddEntryModalContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(
-                horizontal = Margins.horizontalLarge,
+                horizontal = Margins.horizontal,
                 vertical = Margins.verticalLarge
             ),
         verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)
