@@ -2,7 +2,11 @@ package com.example.jourlyapp.viewmodel.journal
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.jourlyapp.JourlyApplication
@@ -14,8 +18,7 @@ import kotlinx.coroutines.launch
 class JournalViewModel(
     private val userRepository: UserRepository,
     private val journalRepository: JournalRepositoryImpl
-) :
-    ViewModel() {
+) : ViewModel() {
     val userName: MutableState<String> = mutableStateOf("")
 
     val journalEntries: LiveData<List<JournalEntry>> =
@@ -25,7 +28,7 @@ class JournalViewModel(
         userName.value = userRepository.getUser()?.name ?: ""
     }
 
-    fun deleteEntry(entryId : Int) = viewModelScope.launch{
+    fun deleteEntry(entryId: Int) = viewModelScope.launch {
         journalRepository.deleteEntryById(entryId)
     }
 

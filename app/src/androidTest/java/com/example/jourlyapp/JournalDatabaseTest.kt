@@ -45,15 +45,35 @@ class JournalDatabaseTest {
     )
 
     private val questionAnswerPairs = listOf(
-        QuestionAnswerPair(null, 1, JournalQuestion.QUESTION1.toString(), "Answer"),
-        QuestionAnswerPair(null, 1, JournalQuestion.QUESTION2.toString(), null),
-        QuestionAnswerPair(null, 2, JournalQuestion.QUESTION3.toString(), "Answer"),
+        QuestionAnswerPair(
+            null,
+            1,
+            JournalQuestion.QUESTION1.toString(),
+            "Answer"
+        ),
+        QuestionAnswerPair(null, 1, JournalQuestion.QUESTION2.toString()),
+        QuestionAnswerPair(
+            null,
+            2,
+            JournalQuestion.QUESTION3.toString(),
+            "Answer"
+        ),
     )
 
     private val expectedQaPairs = listOf(
-        QuestionAnswerPair(1, 1, JournalQuestion.QUESTION1.toString(), "Answer"),
-        QuestionAnswerPair(2, 1, JournalQuestion.QUESTION2.toString(), null),
-        QuestionAnswerPair(3, 2, JournalQuestion.QUESTION3.toString(), "Answer"),
+        QuestionAnswerPair(
+            1,
+            1,
+            JournalQuestion.QUESTION1.toString(),
+            "Answer"
+        ),
+        QuestionAnswerPair(2, 1, JournalQuestion.QUESTION2.toString()),
+        QuestionAnswerPair(
+            3,
+            2,
+            JournalQuestion.QUESTION3.toString(),
+            "Answer"
+        ),
     )
 
     @Before
@@ -167,5 +187,12 @@ class JournalDatabaseTest {
         val entry = journalDao.getEntryById(1)
 
         assert(entry == expectedEntry)
+    }
+
+    @Test
+    fun getEntryByIdReturnsNullIfEntryNotExists() = runTest {
+        val entry = journalDao.getEntryById(10000)
+
+        assert(entry == null)
     }
 }

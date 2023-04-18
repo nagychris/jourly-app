@@ -15,6 +15,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,6 +62,15 @@ fun MainScreen(
         coroutineScope.launch { modalSheetState.hide() }
     }
 
+    if (modalSheetState.currentValue != ModalBottomSheetValue.Hidden) {
+        DisposableEffect(Unit) {
+            onDispose {
+                // always reset fullscreen if modal is hidden
+                isSheetFullScreen = false
+            }
+        }
+    }
+
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
         sheetContent = {
@@ -71,29 +81,39 @@ fun MainScreen(
                 else
                     Modifier.fillMaxWidth(),
                 coroutineScope = coroutineScope,
-                onMoodIconClick = suspend {
-                    modalSheetState.hide()
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        "Quick Entry added",
-                        duration = androidx.compose.material.SnackbarDuration.Short
-                    )
-                    journalEntryListState.scrollToItem(0)
-                },
+                isFullScreen = isSheetFullScreen,
                 onExpandClick = {
-                    coroutineScope.launch {
-                        isSheetFullScreen = true
-                    }
+                    isSheetFullScreen = true
                 },
                 onCollapseClick = {
-                    coroutineScope.launch {
-                        isSheetFullScreen = false
-                    }
+                    isSheetFullScreen = false
                 },
-                isFullScreen = isSheetFullScreen,
                 onDetailedClose = {
                     coroutineScope.launch {
                         modalSheetState.hide()
-                        isSheetFullScreen = false
+                    }
+                },
+                onMoodIconSingleTap = {
+                    isSheetFullScreen = true
+                },
+                onMoodIconDoubleTap = {
+                    coroutineScope.launch {
+                        modalSheetState.hide()
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            "Quick Entry added",
+                            duration = androidx.compose.material.SnackbarDuration.Short
+                        )
+                        journalEntryListState.scrollToItem(0)
+                    }
+                },
+                onDetailedSave = {
+                    coroutineScope.launch {
+                        modalSheetState.hide()
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            "Detailed Entry added",
+                            duration = androidx.compose.material.SnackbarDuration.Short
+                        )
+                        journalEntryListState.scrollToItem(0)
                     }
                 }
             )
@@ -101,7 +121,7 @@ fun MainScreen(
         sheetShape = RoundedCornerShape(
             topStart = roundedCornerRadius,
             topEnd = roundedCornerRadius
-        )
+        ),
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -133,5 +153,4 @@ fun MainScreen(
         }
     }
 }
-
 

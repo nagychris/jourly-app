@@ -27,9 +27,11 @@ fun BaseTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = true,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    enabled: Boolean = true,
 ) {
     OutlinedTextField(
+        enabled = enabled,
         value = value,
         singleLine = singleLine,
         modifier = modifier.fillMaxWidth(),

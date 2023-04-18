@@ -1,5 +1,6 @@
 package com.example.jourlyapp.ui.components.journal
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -38,7 +39,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.jourlyapp.model.journal.entities.JournalEntry
+import com.example.jourlyapp.ui.navigation.DetailedRoute
 import com.example.jourlyapp.ui.theme.Blue80
 import com.example.jourlyapp.ui.theme.Danger80
 import com.example.jourlyapp.ui.theme.Light
@@ -52,7 +55,8 @@ fun JournalEntryList(
     modifier: Modifier = Modifier,
     journalEntries: List<JournalEntry>,
     viewModel: JournalViewModel,
-    listState: LazyListState
+    listState: LazyListState,
+    navController: NavController
 ) {
     val coroutineScope = rememberCoroutineScope()
     val toastContext = LocalContext.current
@@ -78,11 +82,12 @@ fun JournalEntryList(
                                 return@rememberDismissState true
                             } else if (it == DismissValue.DismissedToEnd) {
                                 coroutineScope.launch {
-                                    Toast.makeText(
-                                        toastContext,
-                                        "TODO: Show edit entry screen",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    navController.navigate(
+                                        DetailedRoute.journalEntryRoute(
+                                            journalEntry.id ?: 0,
+                                            true
+                                        )
+                                    )
                                 }
                                 return@rememberDismissState false
                             }
@@ -170,7 +175,18 @@ fun JournalEntryList(
                             JournalEntryListItem(
                                 journalEntry = journalEntry,
                                 onClick = {
-                                    //TODO: navigate to journal entry details screen
+                                    Log.d(
+                                        "JournalEntryList",
+                                        "Navigating to entry with id: ${journalEntry.id}"
+                                    )
+                                    coroutineScope.launch {
+                                        navController.navigate(
+                                            DetailedRoute.journalEntryRoute(
+                                                journalEntry.id ?: 0,
+                                                editable = false
+                                            )
+                                        )
+                                    }
                                 }
                             )
                         }

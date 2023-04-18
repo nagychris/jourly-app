@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 
 class DateTimeParser {
     companion object {
-        private val longFormatter = DateTimeFormatter.ofPattern("d MMM uuuu")
+        private val longFormatter = DateTimeFormatter.ofPattern("d MMMM uuuu")
         private val shortFormatter = DateTimeFormatter.ofPattern("d/M")
 
         fun toLongDateString(localDateTime: LocalDateTime): String {

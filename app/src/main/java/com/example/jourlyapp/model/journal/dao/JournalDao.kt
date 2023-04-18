@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
+import com.example.jourlyapp.model.journal.enums.Mood
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
@@ -24,7 +25,7 @@ interface JournalDao {
     fun getEntries(): Flow<List<JournalEntry>>
 
     @Query("SELECT * FROM journal_entry WHERE id = :journalEntryId")
-    fun getEntryById(journalEntryId: Int): JournalEntry
+    fun getEntryById(journalEntryId: Int): JournalEntry?
 
     /**
      * Retrieves all journal entries between the two provided dates as strings.
@@ -64,5 +65,17 @@ interface JournalDao {
     @Query(
         "SELECT journal_entry.id FROM journal_entry ORDER BY id DESC LIMIT 1"
     )
-    fun getLastEntryId() : Int
+    fun getLastEntryId(): Int
+
+    /**
+     * Update entry mood by ID
+     */
+    @Query("UPDATE journal_entry SET mood = :mood WHERE id = :entryId")
+    fun updateJournalEntryMood(mood: Mood, entryId: Int)
+
+    /**
+     * Update questionAnswerPair answer by ID
+     */
+    @Query("UPDATE question_answer_pair SET answer = :answer WHERE id = :questionAnswerPairId")
+    fun updateAnswer(answer: String, questionAnswerPairId: Int)
 }

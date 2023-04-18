@@ -25,5 +25,5 @@ data class QuestionAnswerPair(
     @ColumnInfo(name = "journal_entry_id", index = true)
     val journalEntryId: Int,
     var question: String,
-    var answer: String?
+    var answer: String = ""
 )
