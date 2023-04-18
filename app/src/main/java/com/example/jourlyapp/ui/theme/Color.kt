@@ -10,7 +10,8 @@ val Purple100 = Color(0xFF4D58B2)
 val Purple80 = Color(0xFFC5CAEF)
 val Purple60 = Color(0xFFD9DCF5)
 
-val Dark = Color(0xCC263238)
+val Dark80 = Color(0xCC263238)
+val Dark60 = Color(0x33263238)
 val Light = Color(0xFFF0F0F0)
 
 val Success80 = Color.hsl(85F, 0.59F, 0.70F)

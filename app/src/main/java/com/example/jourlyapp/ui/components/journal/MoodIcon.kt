@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.jourlyapp.model.journal.enums.Mood
-import com.example.jourlyapp.ui.theme.Purple60
+import com.example.jourlyapp.ui.theme.Dark60
 
 @Composable
 fun MoodIcon(
@@ -25,7 +25,7 @@ fun MoodIcon(
         modifier = modifier
             .size(32.dp)
             .background(
-                if (highlighted) Purple60 else Color.Transparent,
+                if (highlighted) Dark60 else Color.Transparent,
                 shape = RoundedCornerShape(6.dp)
             ),
         tint = MaterialTheme.colorScheme.secondary
