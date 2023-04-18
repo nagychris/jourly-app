@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,14 +26,18 @@ import com.example.jourlyapp.ui.components.shared.inputs.BaseTextField
 import com.example.jourlyapp.ui.navigation.AppRoute
 import com.example.jourlyapp.ui.theme.Margins
 import com.example.jourlyapp.viewmodel.journal.JournalDetailsViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun JournalDetailsScreen(navController: NavController) {
     val viewModel: JournalDetailsViewModel =
         viewModel(factory = JournalDetailsViewModel.Factory)
 
-    val journalEntry = viewModel.journalEntry.value
+    val coroutineScope = rememberCoroutineScope()
+
+    val journalEntry = viewModel.journalEntry
     val editable = viewModel.editable.value
+    val mood = viewModel.mood.value
 
     if (journalEntry == null) {
         Box(
@@ -55,9 +60,17 @@ fun JournalDetailsScreen(navController: NavController) {
             DetailedEntryHeader(
                 date = journalEntry.date,
                 editable = editable,
-                onBackClick = { navController.navigate(AppRoute.Journal.route) },
+                onBackClick = {
+                    coroutineScope.launch {
+                        navController.navigate(AppRoute.Journal.route)
+                    }
+                },
                 onEditClick = { viewModel.setEditable() },
-                onSaveClick = { viewModel.saveChanges() }
+                onSaveClick = {
+                    coroutineScope.launch {
+                        viewModel.saveChanges()
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(Margins.verticalLarge))
@@ -65,44 +78,47 @@ fun JournalDetailsScreen(navController: NavController) {
             if (editable) {
                 MoodSelect(
                     onTap = {
-                        viewModel.updateMood(it)
+                        coroutineScope.launch {
+                            viewModel.updateMood(it)
+                        }
                     },
-                    selectedMood = journalEntry.mood
+                    selectedMood = mood
                 )
             } else {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(Margins.horizontal),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    MoodIcon(mood = journalEntry.mood)
-                    Text(journalEntry.mood.toString())
+                    MoodIcon(mood = mood)
+                    Text(mood.toString())
                 }
             }
 
             Spacer(modifier = Modifier.height(Margins.verticalLarge))
 
             Column(verticalArrangement = Arrangement.spacedBy(Margins.verticalLarge)) {
-                viewModel.questionAnswerPairs.first()
-                    .forEachIndexed { index, pair ->
-                        Column {
-                            Text(
-                                text = pair.question,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
-                            Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
-                            BaseTextField(
-                                enabled = editable,
-                                value = pair.answer,
-                                onValueChange = { newAnswer ->
+                viewModel.questionAnswerPairs.forEachIndexed { index, pair ->
+                    Column {
+                        Text(
+                            text = pair.question,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Spacer(modifier = Modifier.padding(vertical = Margins.vertical))
+                        BaseTextField(
+                            enabled = editable,
+                            value = viewModel.answers[index],
+                            onValueChange = { newAnswer ->
+                                coroutineScope.launch {
                                     viewModel.updateAnswer(index, newAnswer)
-                                },
-                                textStyle = MaterialTheme.typography.bodySmall,
-                                singleLine = false,
-                                modifier = Modifier.fillMaxWidth(),
-                                placeholder = { Text(text = if (editable) "Type your answer..." else "No answer yet...") }
-                            )
-                        }
+                                }
+                            },
+                            textStyle = MaterialTheme.typography.bodySmall,
+                            singleLine = false,
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = { Text(text = if (editable) "Type your answer..." else "No answer yet...") }
+                        )
                     }
+                }
             }
         }
     }

@@ -22,12 +22,22 @@ class JournalDetailsViewModel(
     val editable: MutableState<Boolean> =
         mutableStateOf(checkNotNull(savedStateHandle["editable"]))
 
-    val journalEntry =
-        mutableStateOf(journalRepository.getJournalEntryById(entryId))
+    val journalEntry = journalRepository.getJournalEntryById(entryId)
 
-    val questionAnswerPairs = mutableStateListOf(
+    val mood = mutableStateOf(journalEntry?.mood ?: Mood.None)
+
+    val questionAnswerPairs =
         journalRepository.getQuestionAnswerPairsByEntryId(entryId)
-    )
+
+    var answers = mutableStateListOf<String>()
+
+    init {
+        questionAnswerPairs.forEach {
+            answers.add(
+                it.answer
+            )
+        }
+    }
 
     fun setEditable() {
         editable.value = true
@@ -35,15 +45,24 @@ class JournalDetailsViewModel(
 
     fun saveChanges() {
         editable.value = false
-        // TODO: save entry / QA-pairs to DB
+        journalRepository.updateJournalEntryMood(mood.value, entryId)
+        questionAnswerPairs.forEachIndexed { index, questionAnswerPair ->
+            val id = questionAnswerPair.id
+            id?.let {
+                journalRepository.updateQuestionAnswerPair(
+                    answers[index],
+                    it
+                )
+            }
+        }
     }
 
-    fun updateMood(mood: Mood) {
-        journalEntry.value?.mood = mood
+    fun updateMood(newMood: Mood) {
+        mood.value = newMood
     }
 
     fun updateAnswer(index: Int, answer: String) {
-        questionAnswerPairs.first()[index].answer = answer
+        answers[index] = answer
     }
 
     companion object {

@@ -3,6 +3,7 @@ package com.example.jourlyapp.model.journal
 import com.example.jourlyapp.model.journal.dao.JournalDao
 import com.example.jourlyapp.model.journal.entities.JournalEntry
 import com.example.jourlyapp.model.journal.entities.QuestionAnswerPair
+import com.example.jourlyapp.model.journal.enums.Mood
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
@@ -25,6 +26,10 @@ interface JournalRepository {
     fun getLastEntryId(): Int
 
     fun getQuestionAnswerPairsByEntryId(entryId: Int): List<QuestionAnswerPair>
+
+    fun updateJournalEntryMood(mood: Mood, entryId: Int)
+
+    fun updateQuestionAnswerPair(answer: String, id: Int)
 }
 
 class JournalRepositoryImpl(private val journalDao: JournalDao) :
@@ -59,4 +64,12 @@ class JournalRepositoryImpl(private val journalDao: JournalDao) :
 
     override fun getQuestionAnswerPairsByEntryId(entryId: Int): List<QuestionAnswerPair> =
         journalDao.getQuestionnaireByEntryId(entryId)
+
+    override fun updateJournalEntryMood(mood: Mood, entryId: Int) {
+        journalDao.updateJournalEntryMood(mood, entryId)
+    }
+
+    override fun updateQuestionAnswerPair(answer: String, id: Int) {
+        journalDao.updateAnswer(answer, id)
+    }
 }
