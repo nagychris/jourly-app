@@ -2,6 +2,14 @@
 - Mobile Application Development Project @ BTH
 - Quick & easy mood tracking and journaling
 
+## How to Run (locally)
+
+- Clone the repo on your filesystem: `git clone https://github.com/nagychris/jourly-app.git`.
+
+- Open the cloned project in Android Studio.
+
+- Run it on an emulator / local device via the `app` run configuration in the top bar (you have to select the device first).
+
 ## How to Contribute :rocket:
 
 Please follow the following workflow when contributing [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow):
