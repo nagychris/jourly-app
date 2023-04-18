@@ -10,6 +10,8 @@
 
 - Run it on an emulator / local device via the `app` run configuration in the top bar (you have to select the device first).
 
+- You need to create a new "account" in the first screen, but you can just provide a name (e.g., "User"), the passcode is optional. After that, each time you close and re-open the app, the user details are re-used (just the passcode needs to be re-entered if you set one in the beginning).
+
 ## How to Contribute :rocket:
 
 Please follow the following workflow when contributing [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow):
